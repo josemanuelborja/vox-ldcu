@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './Login/login.component';
+import { RegisterComponent } from './Register/register.component';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: LoginComponent }, // ← pansamantala, e change ra nako later ang login component to a register component
+  { path: '', component: LoginComponent },  // ← Default Login Page nako 
+  { path: 'login', component: LoginComponent },  // ← Login 
+  { path: 'register', component: RegisterComponent }, // ← Register
 ];

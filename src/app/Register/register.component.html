@@ -1,0 +1,50 @@
+<div class="login-wrapper">
+  <div class="login-card">
+
+    <div>
+      <h2 class="card-title">Create Account</h2>
+    </div>
+    <p class="brand-subtitle">Register to send reports</p>
+
+    <label for="fullName">Full Name</label>
+    <input
+      id="fullName"
+      type="text"
+      placeholder="Students full name"
+      [(ngModel)]="fullName"
+    />
+
+    <label for="studentId">Student ID</label>
+    <input
+      id="studentId"
+      type="text"
+      placeholder="00000000000"
+      [(ngModel)]="studentId"
+    />
+
+    <label for="email">Email</label>
+    <input
+      id="email"
+      type="email"
+      placeholder="student@liceo.edu.ph"
+      [(ngModel)]="email"
+    />
+
+    <label for="password">Password</label>
+    <input
+      id="password"
+      type="password"
+      placeholder="••••••••••"
+      [(ngModel)]="password"
+    />
+
+    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    <button class="btn-login" (click)="onRegister()">Register</button>
+
+    <p class="register-link">
+      Already have an account? <a routerLink="/login">Login</a>
+    </p>
+
+  </div>
+</div>
