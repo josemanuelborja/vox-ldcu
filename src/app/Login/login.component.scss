@@ -1,0 +1,104 @@
+/* Colors */
+$red: #9b1a1a;
+$dark-red: #7a1414;
+
+/* Full page background */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/assets/images/building-image.png');
+  background-size: cover;
+  background-position: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* White card */
+.login-card {
+  background: white;
+  border-radius: 12px;
+  padding: 48px 44px;
+  width: 30%;          
+  max-width: 400px;     
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Brand */
+.brand-vox {
+  font-size: 2rem;
+  font-weight: 800;
+  color: black;
+}
+
+.brand-ldcu {
+  font-size: 2rem;
+  font-weight: 800;
+  color: $red;
+}
+
+.brand-subtitle {
+  font-size: 0.9rem;
+  color: #000000;
+  margin-bottom: 24px;
+}
+
+/* Form fields */
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  margin-top: 16px;
+}
+
+input {
+  width: 100%;       
+  padding: 12px 16px;
+  border: 1.5px solid #d0d0d0;   
+  border-radius: 8px;
+  font-size: 0.92rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: $red;
+}
+
+/* Error */
+.error-message {
+  color: $red;
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+/* Login button */
+.btn-login {
+  width: 100%;
+  padding: 13px;
+  margin-top: 20px;
+  background: $red;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-login:hover {
+  background: $dark-red;
+}
+
+/* Register link */
+.register-link {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: $red;
+}
+
+.register-link a {
+  color: $red;
+  font-weight: 700;
+}
