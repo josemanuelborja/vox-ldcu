@@ -31,7 +31,7 @@ export class LoginComponent {
     // test rani sya kung maka login sucessfully help rani sa gpt
     if (this.email === 'student@liceo.edu.ph' && this.password === 'password123') {
       this.errorMessage = '';
-      alert('Login successful!');
+      this.router.navigate(['/dashboard'])
     
     } else {
       this.errorMessage = 'Invalid email or password.';

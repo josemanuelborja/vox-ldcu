@@ -1,0 +1,46 @@
+<div class="page-wrapper">
+
+  <div class="navbar">
+    <div class="navbar-left">
+      <h1 class="nav-title">Dashboard</h1>
+      <p class="nav-subtitle">Welcome, Student!</p>
+    </div>
+
+    <div class="navbar-right">
+      <button class="btn-submit" (click)="onSubmitReport()">
+        <img src="/assets/images/plus.png" class="btn-icon" alt="plus" />
+        Submit Report
+      </button>
+
+      <div class="user-dropdown" (click)="toggleDropdown()">
+        <img src="/assets/images/user.png" class="user-icon-img" alt="user" />
+        <span class="user-name">{{ studentName }}</span>
+        <span class="arrow">▾</span>
+
+        <div class="dropdown-menu" *ngIf="isDropdownOpen">
+          <p class="dropdown-item" (click)="onLogout()">Logout</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <h2 class="section-title">My Reports</h2>
+    <p class="section-subtitle">Track the status of your submitted reports.</p>
+
+    <div class="reports-box">
+      <div class="empty-state" *ngIf="reports.length === 0">
+        <div class="file-icon">📄</div>
+        <p class="empty-text">No reports submitted yet</p>
+        <button class="btn-first-report" (click)="onSubmitReport()">
+          Submit your first report
+        </button>
+      </div>
+
+      <div *ngIf="reports.length > 0">
+        <p *ngFor="let report of reports">{{ report.title }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
