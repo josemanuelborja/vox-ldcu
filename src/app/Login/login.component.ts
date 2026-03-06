@@ -32,6 +32,7 @@ export class LoginComponent {
     if (this.email === 'student@liceo.edu.ph' && this.password === 'password123') {
       this.errorMessage = '';
       this.router.navigate(['/dashboard'])
+      
     
     } else {
       this.errorMessage = 'Invalid email or password.';

@@ -27,12 +27,12 @@ export class DashboardComponent {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  // Go to submit report page (create this later)
+ 
   onSubmitReport() {
-    alert('Submit Report clicked! (Add submit report page later)');
+    this.router.navigate(['/ticket']);
   }
 
-  // Logout function
+
   onLogout() {
     this.router.navigate(['/login']);
   }

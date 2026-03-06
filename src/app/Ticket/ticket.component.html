@@ -1,0 +1,61 @@
+<div class="page-wrapper">
+
+  <div class="navbar">
+    <div class="navbar-left">
+      <h1 class="nav-title">Submit a report</h1>
+      <p class="nav-subtitle">Fill out the form below to submit your report</p>
+    </div>
+  </div>
+
+  <div class="main-content">
+
+    <p class="back-btn" (click)="goBack()">← Back to Dashboard</p>
+
+    <div class="form-card">
+
+      <h2 class="form-title">Report Details</h2>
+      <p class="form-subtitle">Provide as much detail as possible to help us address your concern</p>
+
+      <label>Title *</label>
+      <input type="text" placeholder="Brief summary of your report" [(ngModel)]="title" />
+
+    
+      <label>Type of Report *</label>
+      <select [(ngModel)]="reportType">
+      <option value="" disabled selected hidden>Type of Report</option>
+      <option>Complaint</option>
+      <option>Suggestion</option>
+      <option>Inquiry</option>
+      </select>
+
+      <label>Category *</label>
+      <select [(ngModel)]="category">
+      <option value="" disabled selected hidden>Select a category</option>
+      <option>Facilities</option>
+      <option>Faculty</option>
+      <option>Administration</option>
+      <option>Others</option>
+      </select>
+
+      
+      <label>Description *</label>
+      <textarea placeholder="Provide detailed information about your report" [(ngModel)]="description"></textarea>
+
+      
+      <label>Attachment</label>
+      <div class="file-upload">
+        <input type="file" id="fileInput" (change)="onFileChange($event)" hidden />
+        <label for="fileInput" class="file-label">Choose file</label>
+        <span class="file-name">{{ attachment ? attachment.name : 'No file chosen' }}</span>
+      </div>
+
+     
+      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+    
+      <button class="btn-submit" (click)="onSubmit()">Submit Report</button>
+
+    </div>
+  </div>
+
+</div>
