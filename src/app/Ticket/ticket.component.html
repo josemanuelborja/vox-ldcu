@@ -17,29 +17,33 @@
       <p class="form-subtitle">Provide as much detail as possible to help us address your concern</p>
 
       <label>Title *</label>
-      <input type="text" placeholder="Brief summary of your report" [(ngModel)]="title" />
+      <input type="text" placeholder="Brief summary of your report" [(ngModel)]="title" (ngModelChange)="errors.title = ''"/>
+      <p class="error-message" *ngIf="errors.title">{{ errors.title }}</p>
 
     
       <label>Type of Report *</label>
-      <select [(ngModel)]="reportType">
+      <select [(ngModel)]="reportType" (ngModelChange)="errors.reportType = ''">
       <option value="" disabled selected hidden>Type of Report</option>
       <option>Complaint</option>
       <option>Suggestion</option>
       <option>Inquiry</option>
       </select>
+      <p class="error-message" *ngIf="errors.reportType">{{ errors.reportType }}</p>
 
       <label>Category *</label>
-      <select [(ngModel)]="category">
+      <select [(ngModel)]="category" (ngModelChange)="errors.category = ''">
       <option value="" disabled selected hidden>Select a category</option>
       <option>Facilities</option>
       <option>Faculty</option>
       <option>Administration</option>
       <option>Others</option>
       </select>
+      <p class="error-message" *ngIf="errors.category">{{ errors.category }}</p>
 
       
       <label>Description *</label>
-      <textarea placeholder="Provide detailed information about your report" [(ngModel)]="description"></textarea>
+      <textarea placeholder="Provide detailed information about your report" [(ngModel)]="description" (ngModelChange)="errors.description = ''"></textarea>
+      <p class="error-message" *ngIf="errors.description">{{ errors.description }}</p>
 
       
       <label>Attachment</label>
@@ -48,9 +52,7 @@
         <label for="fileInput" class="file-label">Choose file</label>
         <span class="file-name">{{ attachment ? attachment.name : 'No file chosen' }}</span>
       </div>
-
-     
-      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+      <p class="error-message" *ngIf="errors.attachment">{{ errors.attachment }}</p>
 
     
       <button class="btn-submit" (click)="onSubmit()">Submit Report</button>

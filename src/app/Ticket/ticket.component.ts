@@ -20,8 +20,16 @@ export class TicketComponent {
   attachment: File | null = null;
   errorMessage: string = '';
 
+  errors = {
+    title: '',
+    reportType: '',
+    category: '',
+    description: '',
+    attachment: ''
+  };
+
   // Dropdown options
-  reportTypes: string[] = ['Complaint', 'Suggestion', 'Inquiry'];
+  reportTypes: string[] = ['Complaint', 'Suggestion'];
   categories: string[] = ['Facilities', 'Faculty', 'Administration', 'Others'];
 
   constructor(private router: Router) {}
@@ -29,13 +37,35 @@ export class TicketComponent {
   // This runs when user picks a file
   onFileChange(event: any) {
     this.attachment = event.target.files[0];
+    this.errors.attachment = '';
   }
 
   // This runs when user clicks "Submit Report"
   onSubmit() {
-    // Check if all required fields are filled
-    if (!this.title || !this.reportType || !this.category || !this.description) {
-      this.errorMessage = 'Please fill in all required fields.';
+    
+    this.errors = {title: '', reportType: '', category: '', description: '', attachment: ''};
+
+    if (!this.title) {
+      this.errors.title = 'Title is required.';
+    }
+
+    if (!this.reportType) {
+      this.errors.reportType = 'Please select a type of report.';
+    }
+
+    if (!this.category) {
+      this.errors.category = 'Please select a category.';
+    }
+
+    if (!this.description) {
+      this.errors.description = 'Description is required.';
+    }
+
+    if (!this.attachment) {
+      this.errors.attachment = 'Attachment is required';
+    }
+
+    if (this.errors.title || this.errors.reportType || this.errors.category || this.errors.description || this.errors.attachment) {
       return;
     }
 
@@ -47,7 +77,6 @@ export class TicketComponent {
     this.router.navigate(['/dashboard']);
   }
 
-  
   goBack() {
     this.router.navigate(['/dashboard']);
   }
