@@ -102,3 +102,15 @@ input:focus {
   color: $red;
   font-weight: 700;
 }
+
+.password-link {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: $red;
+}
+
+.password-link a {
+  color: $red;
+  font-weight: 600;
+}
