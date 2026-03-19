@@ -1,3 +1,4 @@
+/* Colors */
 $red: #9b1a1a;
 $dark-red: #7a1414;
 
@@ -98,6 +99,18 @@ input:focus {
 }
 
 .register-link a {
+  color: $red;
+  font-weight: 700;
+}
+
+.forgotPassword-link {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: $red;
+}
+
+.forgotPassword-link a {
   color: $red;
   font-weight: 700;
 }
