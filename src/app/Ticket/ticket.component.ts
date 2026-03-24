@@ -85,8 +85,8 @@ export class TicketComponent {
       description: this.description,
       attachment: this.attachment ? this.attachment.name : 'No attachment',
       date: new Date().toLocaleString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'}),
-      status: 'Submitted'
-      // submittedBy: 'Jose Borja' - wala pay database so comment sa nisame sa reportdetails html
+      status: 'Submitted',
+      submittedBy: 'Ashton Nathanel A. Lactuan'
     }
 
     const existing = localStorage.getItem('reports');

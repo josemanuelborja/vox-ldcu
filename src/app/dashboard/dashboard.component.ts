@@ -37,7 +37,6 @@ export class DashboardComponent {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
- 
   onSubmitReport() {
     this.router.navigate(['/ticket']);
   }
