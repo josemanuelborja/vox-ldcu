@@ -42,7 +42,8 @@
 
       
       <label>Description *</label>
-      <textarea placeholder="Provide detailed information about your report" [(ngModel)]="description" (ngModelChange)="errors.description = ''"></textarea>
+      <textarea placeholder="Provide detailed information about your report" [(ngModel)]="description" (ngModelChange)="errors.description = ''"
+      style="resize: vertical; min-height: 150px; max-height: 250px; overflow-y: auto; word-break: break-all;"></textarea>
       <p class="error-message" *ngIf="errors.description">{{ errors.description }}</p>
 
       
@@ -52,9 +53,8 @@
         <label for="fileInput" class="file-label">Choose file</label>
         <span class="file-name">{{ attachment ? attachment.name : 'No file chosen' }}</span>
       </div>
-      <p class="error-message" *ngIf="errors.attachment">{{ errors.attachment }}</p>
 
-    
+      
       <button class="btn-submit" (click)="onSubmit()">Submit Report</button>
 
     </div>

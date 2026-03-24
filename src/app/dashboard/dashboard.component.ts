@@ -22,6 +22,16 @@ export class DashboardComponent {
 
   constructor(private router: Router) {}
 
+   ngOnInit() {
+    const saved = localStorage.getItem('reports');
+    this.reports = saved ? JSON.parse(saved) : [];
+  }
+
+  onViewReport(report: any) {
+    localStorage.setItem('selectedReport', JSON.stringify(report));
+    this.router.navigate(['/reportDetails']);
+  }
+
   // Toggle the dropdown menu
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;

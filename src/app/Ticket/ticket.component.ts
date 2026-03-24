@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { submit } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-ticket',
@@ -36,14 +37,25 @@ export class TicketComponent {
 
   // This runs when user picks a file
   onFileChange(event: any) {
-    this.attachment = event.target.files[0];
-    this.errors.attachment = '';
+  const file = event.target.files[0];
+
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+  if (!allowedTypes.includes(file.type)) {
+    this.errors.attachment = 'Only image files are allowed (jpg, png, gif, webp).';
+    this.attachment = null;
+    event.target.value = '';
+    return;
   }
+
+  this.errors.attachment = '';
+  this.attachment = file;
+}
 
   // This runs when user clicks "Submit Report"
   onSubmit() {
     
-    this.errors = {title: '', reportType: '', category: '', description: '', attachment: ''};
+    this.errors = {title: '', reportType: '', category: '', description: '',attachment: ''};
 
     if (!this.title) {
       this.errors.title = 'Title is required.';
@@ -61,22 +73,36 @@ export class TicketComponent {
       this.errors.description = 'Description is required.';
     }
 
-    if (!this.attachment) {
-      this.errors.attachment = 'Attachment is required';
-    }
 
-    if (this.errors.title || this.errors.reportType || this.errors.category || this.errors.description || this.errors.attachment) {
+    if (this.errors.title || this.errors.reportType || this.errors.category || this.errors.description) {
       return;
     }
+
+    const newReport = {
+      title: this.title,
+      reportType: this.reportType,
+      category: this.category,
+      description: this.description,
+      attachment: this.attachment ? this.attachment.name : 'No attachment',
+      date: new Date().toLocaleString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'}),
+      status: 'Submitted'
+      // submittedBy: 'Jose Borja' - wala pay database so comment sa nisame sa reportdetails html
+    }
+
+    const existing = localStorage.getItem('reports');
+    const reports = existing  ? JSON.parse(existing) : [];
+    reports.unshift(newReport);
+    localStorage.setItem('reports', JSON.stringify(reports));
 
     // If all fields are filled
     this.errorMessage = '';
     alert('Report submitted successfully!');
-
-    // TODO: Replace alert with real API call later
-    this.router.navigate(['/dashboard']);
+  
+    // submit report ni padulong dashboard
+    this.router.navigate(['/dashboard']); 
   }
 
+  // kani pabalik ni sya sa dashboard
   goBack() {
     this.router.navigate(['/dashboard']);
   }

@@ -37,8 +37,21 @@
         </button>
       </div>
 
-      <div *ngIf="reports.length > 0">
-        <p *ngFor="let report of reports">{{ report.title }}</p>
+      <div class="report-list" *ngIf="reports.length > 0">
+        <div class="report-card" *ngFor="let report of reports" (click)="onViewReport(report)">
+ 
+          <div class="report-header">
+            <h3 class="report-title">{{ report.title }}</h3>
+            <span class="report-status">{{ report.status }}</span>
+          </div>
+ 
+          <div class="report-meta">
+            <span><strong>Category:</strong> {{ report.category }}</span>
+            <span><strong>Type of Report:</strong> {{ report.reportType }}</span>
+            <span class="date"><strong>Date Created:</strong> {{ report.date }}</span>
+          </div>
+ 
+          <p class="report-description" style="word-break: break-all;">{{ report.description }}</p>
       </div>
     </div>
   </div>
