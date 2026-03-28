@@ -21,6 +21,9 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   isDropdownOpen: boolean = false;
 
+  isStatusFilterOpen: boolean = false;
+  isTypeFilterOpen: boolean = false;
+
   chart: any = null;
 
   showSnackbar: boolean = false;

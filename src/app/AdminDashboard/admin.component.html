@@ -65,27 +65,41 @@
 
   <!-- Filters -->
   <div class="filter-row">
-    <div class="filter-group">
-      <label>Filter by Status</label>
-      <select [(ngModel)]="filterStatus" name="filterStatus">
-        <option>All Status</option>
-        <option>Submitted</option>
-        <option>In Progress</option>
-        <option>Resolved</option>
-        <option>Closed</option>
-      </select>
-    </div>
 
-    <div class="filter-group">
-      <label>Type of Report</label>
-      <select [(ngModel)]="filterType" name="filterType">
-        <option>All Reports</option>
-        <option>Suggestion</option>
-        <option>Complain</option>
-        <option>Inquiry</option>
-      </select>
+  <!-- Filter by Status -->
+  <div class="filter-group">
+    <label>Filter by Status</label>
+    <div class="filter-wrapper">
+      <span class="filter-btn" (click)="isStatusFilterOpen = !isStatusFilterOpen">
+        {{ filterStatus }} ▾
+      </span>
+      <div class="filter-options" *ngIf="isStatusFilterOpen">
+        <p (click)="filterStatus = 'All Status'; isStatusFilterOpen = false">All Status</p>
+        <p (click)="filterStatus = 'Submitted'; isStatusFilterOpen = false">Submitted</p>
+        <p (click)="filterStatus = 'In Progress'; isStatusFilterOpen = false">In Progress</p>
+        <p (click)="filterStatus = 'Resolved'; isStatusFilterOpen = false">Resolved</p>
+        <p (click)="filterStatus = 'Closed'; isStatusFilterOpen = false">Closed</p>
+      </div>
     </div>
   </div>
+
+  <!-- Type of Report -->
+  <div class="filter-group">
+    <label>Type of Report</label>
+    <div class="filter-wrapper">
+      <span class="filter-btn" (click)="isTypeFilterOpen = !isTypeFilterOpen">
+        {{ filterType }} ▾
+      </span>
+      <div class="filter-options" *ngIf="isTypeFilterOpen">
+        <p (click)="filterType = 'All Reports'; isTypeFilterOpen = false">All Reports</p>
+        <p (click)="filterType = 'Suggestion'; isTypeFilterOpen = false">Suggestion</p>
+        <p (click)="filterType = 'Complain'; isTypeFilterOpen = false">Complain</p>
+        <p (click)="filterType = 'Inquiry'; isTypeFilterOpen = false">Inquiry</p>
+      </div>
+    </div>
+  </div>
+
+</div>
 
   <div class="report-list" *ngIf="reports.length > 0">
     <div class="report-card" *ngFor="let report of filteredReports" (click)="onViewReport(report)">
