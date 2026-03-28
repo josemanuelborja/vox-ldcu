@@ -4,7 +4,8 @@ import { RegisterComponent } from './Register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TicketComponent } from './Ticket/ticket.component';
 import { ForgotPasswordComponent } from './ForgotPassword/forgot-password.component';
-import{ ReportDetailsComponent } from './ReportDetails/ReportDetails.component';
+import { ReportDetailsComponent } from './ReportDetails/ReportDetails.component';
+import { AdminComponent } from './AdminDashboard/admin.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },  // ← Default Login Page nako 
@@ -14,4 +15,5 @@ export const routes: Routes = [
   { path: 'ticket', component: TicketComponent }, // ←  (Ticket)
   { path: 'forgotPassword', component: ForgotPasswordComponent }, // ←  (Forgot Password)
   { path: 'reportDetails', component: ReportDetailsComponent }, // ←  (Report Details)
+  { path: 'adminDashboard', component: AdminComponent }, // ←  (Admin Dashboard)
 ];

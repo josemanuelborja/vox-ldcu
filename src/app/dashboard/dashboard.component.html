@@ -8,12 +8,12 @@
 
     <div class="navbar-right">
       <button class="btn-submit" (click)="onSubmitReport()">
-        <img src="/assets/images/plus.png" class="btn-icon" alt="plus" />
+        <img src="/assets/images/plus.svg" class="btn-icon" alt="plus" />
         Submit Report
       </button>
 
       <div class="user-dropdown" (click)="toggleDropdown()">
-        <img src="/assets/images/user.png" class="user-icon-img" alt="user" />
+        <img src="/assets/images/user-white.svg" class="user-icon-img" alt="user" />
         <span class="user-name">{{ studentName }}</span>
         <span class="arrow">▾</span>
 
@@ -30,7 +30,7 @@
 
     <div class="reports-box">
       <div class="empty-state" *ngIf="reports.length === 0">
-        <div class="file-icon">📄</div>
+        <img src="/assets/images/file-dots.svg" class="icon" alt="file" />
         <p class="empty-text">No reports submitted yet</p>
         <button class="btn-first-report" (click)="onSubmitReport()">
           Submit your first report

@@ -17,26 +17,31 @@
         <span class="report-status">{{ report.status }}</span>
       </div>
 
-      <hr class="divider" />
+      <div class="report-detail">
+        <div class="detail-item">
+          <img src="/assets/images/calendar-event.svg" class="icon" alt="Submitted" />
+          <span class="detail-label">Submitted</span>
+          <span class="detail-value">{{ report.date }}</span>
+        </div>
 
-      <div class="report-meta">
-        <div class="meta-item">
-          <span class="meta-label">Submitted</span>
-          <span class="meta-value">{{ report.date }}</span>
+        <div class="detail-item">
+          <img src="/assets/images/file-text.svg" class="icon" alt="Category" />
+          <span class="detail-label">Category</span>
+          <span class="detail-value">{{ report.category }}</span>
         </div>
-        <div class="meta-item">
-          <span class="meta-label">Category</span>
-          <span class="meta-value">{{ report.category }}</span>
+
+        <div class="detail-item">
+          <img src="/assets/images/message-report.svg" class="icon" alt="Type of Report" />
+          <span class="detail-label">Type of Report</span>
+          <span class="detail-value">{{ report.reportType }}</span>
         </div>
-        <div class="meta-item">
-          <span class="meta-label">Type of Report</span>
-          <span class="meta-value">{{ report.reportType }}</span>
+
+        <div class="detail-item">
+          <img src="/assets/images/user.svg" class="icon" alt="Submitted by" />
+          <span class="detail-label">Submitted by</span>
+          <span class="detail-value">{{ report.submittedBy }}</span>
         </div>
-        <div class="meta-item">
-          <span class="meta-label">Submitted by</span>
-          <span class="meta-value">{{ report.submittedBy }}</span>
-        </div>
-        </div>
+      </div>
       
       <hr class="divider" />
 

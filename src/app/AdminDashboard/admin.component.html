@@ -1,0 +1,103 @@
+<div class="navbar">
+  <div class="navbar-left">
+    <p class="nav-title">Admin Dashboard</p>
+    <p class="nav-subtitle">Manage all reports</p>
+  </div>
+
+  <div class="navbar-right">
+    <div class="user-dropdown" (click)="toggleDropdown()">
+      <img src="/assets/images/user-white.svg" class="user-icon-img" alt="user" />
+      <span class="user-name">{{ studentName }}</span>
+      <span class="arrow">▾</span>
+
+      <div class="dropdown-menu" *ngIf="isDropdownOpen">
+        <p class="dropdown-item" (click)="onLogout()">Logout</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Total Reports</span>
+        <img src="/assets/images/file-dots.svg" class="icon" alt="Total Reports" />
+      </div>
+      <p class="stat-number">{{ totalReports }}</p>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Submitted</span>
+        <img src="/assets/images/clock.svg" class="icon" alt="Submitted" />
+      </div>
+      <p class="stat-number">{{ submitted }}</p>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">In Progress</span>
+        <img src="/assets/images/trending-up.svg" class="icon" alt="In Progress" />
+      </div>
+      <p class="stat-number">{{ inProgress }}</p>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Resolved</span>
+        <img src="/assets/images/circle-check.svg" class="icon" alt="Resolved" />
+      </div>
+      <p class="stat-number">{{ resolved }}</p>
+    </div>
+  </div>
+
+  <!-- Bar Chart -->
+  <p class="section-title">Monthly Reports Overview</p>
+  <p class="section-subtitle">
+    Shows the number of reports submitted each month to help track activity over time.
+  </p>
+
+  <div class="chart-box">
+    <canvas #barChart></canvas>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-row">
+    <div class="filter-group">
+      <label>Filter by Status</label>
+      <select [(ngModel)]="filterStatus" name="filterStatus">
+        <option>All Reports</option>
+        <option>Submitted</option>
+        <option>In Progress</option>
+        <option>Resolved</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Type of Report</label>
+      <select [(ngModel)]="filterType" name="filterType">
+        <option>Suggestion</option>
+        <option>Complain</option>
+        <option>Inquiry</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="report-list" *ngIf="reports.length > 0">
+    <div class="report-card" *ngFor="let report of reports">
+      <div class="report-header">
+        <h3 class="report-title">{{ report.title }}</h3>
+        <span class="report-status">{{ report.status }}</span>
+      </div>
+
+      <div class="report-meta">
+        <span><strong>Category:</strong> {{ report.category }}</span>
+        <span><strong>Type of Report:</strong> {{ report.reportType }}</span>
+        <span class="date"><strong>Date Created:</strong> {{ report.date }}</span>
+      </div>
+
+      <p class="report-description">{{ report.description }}</p>
+    </div>
+  </div>
+</div>

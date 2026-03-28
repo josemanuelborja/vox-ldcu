@@ -14,13 +14,15 @@ $dark-red: #7a1414;
   padding: 16px 32px;
   display: flex;
   align-items: center;
+  height: 70px;
+  
 }
 
 .navbar-left {
   .nav-title {
     color: white;
     font-size: 1.4rem;
-    font-weight: 800;
+    font-weight: 650;
     margin: 0;
   }
 }
@@ -34,6 +36,7 @@ $dark-red: #7a1414;
 
 /* Back Button */
 .back-btn {
+  display:inline-block;
   font-size: 0.85rem;
   color: #555;
   cursor: pointer;
@@ -84,27 +87,36 @@ $dark-red: #7a1414;
   margin: 20px 0;
 }
 
-/* Meta Info */
-.report-meta {
+/* detail Info */
+.report-detail {
   display: flex;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 40px;
+  gap: 60px;
   margin-bottom: 4px;
-  column-gap: 100px;
 }
 
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+.detail-item {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
 }
 
-.meta-label {
+.detail-item .icon {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+}
+
+.detail-label {
+  grid-column: 2;
+  grid-row: 1;
   font-size: 0.8rem;
   color: #888;
 }
 
-.meta-value {
+.detail-value {
+  grid-column: 2;
+  grid-row: 2;
   font-size: 0.95rem;
   font-weight: 700;
   color: black;
@@ -157,4 +169,9 @@ $dark-red: #7a1414;
   &:hover {
     background: $dark-red;
   }
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
 }

@@ -29,11 +29,14 @@ $yellow: #f5c200;
 
 /* Main Content */
 .main-content {
-  padding: 24px 32px;
+  padding: 24px 180px;
+  max-width: 965px;
+  margin: 0 auto;  
 }
 
 /* Back Button */
 .back-btn {
+  display: inline-block;
   font-size: 0.85rem;
   color: #555;
   cursor: pointer;

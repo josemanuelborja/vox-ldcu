@@ -29,11 +29,14 @@ export class LoginComponent {
     }
 
     // test rani sya kung maka login sucessfully help rani sa gpt
-    if (this.email === 'student@liceo.edu.ph' && this.password === 'password123') {
+    if (this.email === 'admin@liceo.edu.ph' && this.password === '123123123') {
       this.errorMessage = '';
-      this.router.navigate(['/dashboard'])
-      
-    
+      this.router.navigate(['/adminDashboard']);
+
+    } else if (this.email === 'student@liceo.edu.ph' && this.password === 'password123') {
+      this.errorMessage = '';
+      this.router.navigate(['/dashboard']);
+
     } else {
       this.errorMessage = 'Invalid email or password.';
     }
