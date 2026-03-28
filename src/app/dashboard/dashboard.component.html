@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-
+  <div class="snackbar" *ngIf="showSnackbar">{{ snackbarMessage }}</div>
   <div class="navbar">
     <div class="navbar-left">
       <h1 class="nav-title">Dashboard</h1>
@@ -39,21 +39,22 @@
 
       <div class="report-list" *ngIf="reports.length > 0">
         <div class="report-card" *ngFor="let report of reports" (click)="onViewReport(report)">
- 
           <div class="report-header">
             <h3 class="report-title">{{ report.title }}</h3>
-            <span class="report-status">{{ report.status }}</span>
+            <span class="report-status" [ngClass]="getStatusClass(report.status)">{{
+              report.status
+            }}</span>
           </div>
- 
+
           <div class="report-meta">
             <span><strong>Category:</strong> {{ report.category }}</span>
             <span><strong>Type of Report:</strong> {{ report.reportType }}</span>
             <span class="date"><strong>Date Created:</strong> {{ report.date }}</span>
           </div>
- 
-          <p class="report-description" style="word-break: break-all;">{{ report.description }}</p>
+
+          <p class="report-description" style="word-break: break-all">{{ report.description }}</p>
+        </div>
       </div>
     </div>
   </div>
-
 </div>

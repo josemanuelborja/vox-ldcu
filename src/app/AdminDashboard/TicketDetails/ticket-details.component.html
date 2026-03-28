@@ -1,4 +1,5 @@
 <div class="page-wrapper">
+  <div class="snackbar" *ngIf="showSnackBar">{{ snackbarMessage }}</div>
   <div class="navbar">
     <div class="navbar-left">
       <h1 class="nav-title">Report Details</h1>
@@ -14,9 +15,23 @@
     <div class="report-card" *ngIf="report">
       <div class="report-header">
         <h2 class="report-title">{{ report.title }}</h2>
-        <span class="report-status" [ngClass]="getStatusClass(report.status)">{{
-          report.status
-        }}</span>
+
+        <div class="status-wrapper">
+          <span
+            class="report-status"
+            [ngClass]="getStatusClass(selectedStatus)"
+            (click)="isStatusOpen = !isStatusOpen"
+          >
+            {{ selectedStatus }} ▾
+          </span>
+
+          <div class="status-options" *ngIf="isStatusOpen">
+            <p (click)="selectStatus('Submitted')">Submitted</p>
+            <p (click)="selectStatus('In Progress')">In Progress</p>
+            <p (click)="selectStatus('Resolved')">Resolved</p>
+            <p (click)="selectStatus('Closed')">Closed</p>
+          </div>
+        </div>
       </div>
 
       <div class="report-detail">
@@ -64,23 +79,38 @@
 
       <hr class="divider" />
 
-    <div class="report-section">
-      <h3 class="section-label">Admin Responses</h3>
+      <!-- Admin Responses -->
+      <div class="report-section">
+        <h3 class="section-label">Admin Responses</h3>
 
-      <div class="response-list">
-        <div class="response-card" *ngFor="let response of adminResponses">
-          <div class="response-header">
-            <span class="response-name">{{ response.name }}</span>
-            <span class="response-date">{{ response.date }}</span>
+        <div class="response-list">
+          <div class="response-card" *ngFor="let response of adminResponses">
+            <div class="response-header">
+              <span class="response-name">{{ response.name }}</span>
+              <span class="response-date">{{ response.date }}</span>
+              <button class="btn-delete" (click)="onDeleteResponse(response)"><img src="/assets/images/trash.svg" class="trash-icon" alt="delete" /></button>
+            </div>
+            <p class="response-text">{{ response.message }}</p>
           </div>
-          <p class="response-text">{{ response.message }}</p>
         </div>
-        <p class="no-response" *ngIf="adminResponses.length === 0">No responses yet.</p>
+
+        <!-- Comment Box -->
+        <textarea
+          class="comment-box"
+          placeholder="Write your response here..."
+          [(ngModel)]="newComment"
+          name="newComment"
+          rows="4"
+          (keydown.enter)="onSave(); $event.preventDefault()"
+        ></textarea>
+
+        <div class="btn-row">
+          <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+          <button class="btn-save" (click)="onSave()" [ngClass]="newComment.trim() || selectedStatus !== report.status ? 'btn-save' : 'btn-inactive'">Save</button>
+          
+        </div>
       </div>
     </div>
-
-    </div>
-
 
     <div class="empty-state" *ngIf="!report">
       <p>No report found.</p>

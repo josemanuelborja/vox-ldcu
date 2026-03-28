@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
@@ -17,6 +17,8 @@ export class RegisterComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
+
+  constructor(private router: Router) {}
 
   onRegister() {
 
@@ -36,6 +38,7 @@ export class RegisterComponent {
     }
 
     this.errorMessage = '';
-    alert('Registration successful! You can now login.');
+    localStorage.setItem('snackbar', 'Registration successful! You can now login.');
+    this.router.navigate(['/login'])
   }
 }

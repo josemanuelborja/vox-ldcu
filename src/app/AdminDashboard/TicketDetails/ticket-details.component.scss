@@ -39,7 +39,6 @@ $dark-red: #7a1414;
   display: inline-flex;
   align-items: center;
   font-size: 0.85rem;
-  color: #555;
   cursor: pointer;
   margin-bottom: 16px;
 
@@ -169,6 +168,8 @@ $dark-red: #7a1414;
 .btn-back {
   margin-top: 16px;
   padding: 10px 20px;
+  background: $red;
+  color: white;
   border: none;
   border-radius: 50px;
   cursor: pointer;
@@ -184,6 +185,7 @@ $dark-red: #7a1414;
   height: 24px;
 }
 
+/* Response List */
 .response-list {
   display: flex;
   flex-direction: column;
@@ -213,12 +215,107 @@ $dark-red: #7a1414;
 .response-date {
   font-size: 0.78rem;
   color: #888;
+  margin-left: 12px;
+  flex: 1;
 }
 
 .response-text {
   font-size: 0.85rem;
   color: #444;
   margin: 0;
+}
+
+.no-response {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.comment-box {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+
+  &:focus { border-color: $red; }
+}
+
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn-cancel {
+  padding: 10px 24px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 50px;
+  background: white;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover { background: #f5f5f5; }
+}
+
+.btn-save {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 50px;
+  background: $red;
+  color: white;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: $dark-red;
+}
+
+.btn-inactive {
+  background: #ccc;     
+  cursor: not-allowed;
+}
+
+.status-wrapper {
+  position: relative;
+  margin-left: auto;
+}
+
+.report-status {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.status-options {
+  position: absolute;
+  top: 36px;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  min-width: 160px;
+  z-index: 100;
+}
+
+.status-options p {
+  padding: 12px 20px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+  color: black;
+}
+
+.status-options p:hover {
+  background: #f5f5f5;
 }
 
 .status-submitted {
@@ -239,4 +336,33 @@ $dark-red: #7a1414;
 .status-closed {
   background-color: #ffebee;
   color: #c62828;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+
+  &:hover { opacity: 0.6; }
+}
+
+.trash-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.snackbar {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f5c200;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  z-index: 999;
 }

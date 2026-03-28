@@ -254,3 +254,37 @@ $yellow: #f5c200;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.status-submitted {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-progress {
+  background-color: #fff8e1;
+  color: #f57f17;
+}
+
+.status-resolved {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-closed {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.snackbar {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f5c200;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  z-index: 999;
+}

@@ -13,6 +13,17 @@ export class ReportDetailsComponent implements OnInit {
 
   
   report: any = null;
+  adminResponses: any[] = [];
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'Submitted': return 'status-submitted';
+      case 'In Progress': return 'status-progress';
+      case 'Resolved': return 'status-resolved';
+      case 'Closed': return 'status-closed';
+      default: return '';
+    }
+  }
 
   constructor(private router: Router) {}
 
@@ -20,6 +31,12 @@ export class ReportDetailsComponent implements OnInit {
   ngOnInit() {
     const saved = localStorage.getItem('selectedReport');
     this.report = saved ? JSON.parse(saved) : null;
+
+    if(this.report) {
+      const  responses = localStorage.getItem('responses_' + this.report.id);
+      this.adminResponses = responses ? JSON.parse(responses): [];
+    }
+
   }
 
   

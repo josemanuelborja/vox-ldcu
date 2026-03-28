@@ -96,7 +96,7 @@ export class TicketComponent {
 
     // If all fields are filled
     this.errorMessage = '';
-    alert('Report submitted successfully!');
+    localStorage.setItem('snackbar', 'Report submitted successfully!');
   
     // submit report ni padulong dashboard
     this.router.navigate(['/dashboard']); 

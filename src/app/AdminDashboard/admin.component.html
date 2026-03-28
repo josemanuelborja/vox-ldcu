@@ -1,4 +1,5 @@
 <div class="navbar">
+  <div class="snackbar" *ngIf="showSnackbar">{{ snackbarMessage }}</div>
   <div class="navbar-left">
     <p class="nav-title">Admin Dashboard</p>
     <p class="nav-subtitle">Manage all reports</p>
@@ -67,16 +68,18 @@
     <div class="filter-group">
       <label>Filter by Status</label>
       <select [(ngModel)]="filterStatus" name="filterStatus">
-        <option>All Reports</option>
+        <option>All Status</option>
         <option>Submitted</option>
         <option>In Progress</option>
         <option>Resolved</option>
+        <option>Closed</option>
       </select>
     </div>
 
     <div class="filter-group">
       <label>Type of Report</label>
       <select [(ngModel)]="filterType" name="filterType">
+        <option>All Reports</option>
         <option>Suggestion</option>
         <option>Complain</option>
         <option>Inquiry</option>
@@ -85,10 +88,10 @@
   </div>
 
   <div class="report-list" *ngIf="reports.length > 0">
-    <div class="report-card" *ngFor="let report of reports">
+    <div class="report-card" *ngFor="let report of filteredReports" (click)="onViewReport(report)">
       <div class="report-header">
         <h3 class="report-title">{{ report.title }}</h3>
-        <span class="report-status">{{ report.status }}</span>
+        <span class="report-status" [ngClass]="getStatusClass(report.status)" >{{ report.status }}</span>
       </div>
 
       <div class="report-meta">
@@ -97,7 +100,7 @@
         <span class="date"><strong>Date Created:</strong> {{ report.date }}</span>
       </div>
 
-      <p class="report-description">{{ report.description }}</p>
+      <p class="report-description" style="word-break: break-all;">{{ report.description }}</p>
     </div>
   </div>
 </div>

@@ -23,18 +23,59 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   chart: any = null;
 
+  showSnackbar: boolean = false;
+  snackbarMessage: string = '';
+
   totalReports = 4;
   submitted = 2;
   inProgress = 1;
   resolved = 1;
-  filterStatus = 'All Reports';
-  filterType = 'Suggestion';
+  filterStatus = 'All Status';
+  filterType = 'All Reports';
 
   reports: any[] = [];
+
+  get filteredReports() {
+  return this.reports.filter(report => {
+    const statusMatch = this.filterStatus === 'All Status' || report.status === this.filterStatus;
+    const typeMatch = this.filterType === 'All Reports' || report.reportType === this.filterType;
+    return statusMatch && typeMatch;
+  });
+}
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'Submitted': return 'status-submitted';
+      case 'In Progress': return 'status-progress';
+      case 'Resolved': return 'status-resolved';
+      case 'Closed': return 'status-closed';
+      default: return '';
+    }
+  }
 
   constructor(private router: Router) {}
 
   ngOnInit() {
+    this.loadReports();
+
+    const message = localStorage.getItem('snackbar');
+    if (message) {
+      this.showMessage(message);
+      localStorage.removeItem('snackbar');
+    }
+
+  }
+
+  showMessage(message: string) {
+    this.snackbarMessage = message;
+    this.showSnackbar = true;
+
+    setTimeout(() => {
+      this.showSnackbar = false;
+    }, 2000);
+  }
+
+  loadReports() {
     const saved = localStorage.getItem('reports');
     this.reports = saved ? JSON.parse(saved) : [];
   }
@@ -73,6 +114,11 @@ export class AdminComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+
+  onViewReport(report: any) {
+    localStorage.setItem('selectedReport', JSON.stringify(report));
+    this.router.navigate(['/ticketDetails']);
   }
 
   toggleDropdown() {
