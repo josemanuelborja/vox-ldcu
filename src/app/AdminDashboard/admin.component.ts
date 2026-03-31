@@ -18,17 +18,11 @@ export class AdminComponent implements OnInit, AfterViewInit {
   @ViewChild('barChart') barChartRef!: ElementRef;
 
   studentName: string = 'Admin';
-
   isDropdownOpen: boolean = false;
-
   isStatusFilterOpen: boolean = false;
   isTypeFilterOpen: boolean = false;
-
   chart: any = null;
-
-  showSnackbar: boolean = false;
-  snackbarMessage: string = '';
-
+  
   totalReports = 4;
   submitted = 2;
   inProgress = 1;
@@ -61,21 +55,6 @@ export class AdminComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.loadReports();
 
-    const message = localStorage.getItem('snackbar');
-    if (message) {
-      this.showMessage(message);
-      localStorage.removeItem('snackbar');
-    }
-
-  }
-
-  showMessage(message: string) {
-    this.snackbarMessage = message;
-    this.showSnackbar = true;
-
-    setTimeout(() => {
-      this.showSnackbar = false;
-    }, 2000);
   }
 
   loadReports() {
@@ -96,7 +75,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
         datasets: [{
           label: 'Reports',
           data: [35, 47, 35, 36, 35, 47, 47, 47, 47, 47, 47, 36],
-          backgroundColor: 'rgba(255, 193, 7, 1)',
+          backgroundColor: 'rgb(131, 58, 58)',
           borderWidth: 0
         }]
       },

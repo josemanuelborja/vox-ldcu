@@ -9,7 +9,7 @@ $yellow: #f5c200;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .navbar-left {
@@ -18,12 +18,14 @@ $yellow: #f5c200;
     font-size: 1.4rem;
     font-weight: 800;
     margin: 0;
+    font-family: 'Segoe UI', sans-serif;
   }
 
   .nav-subtitle {
     color: rgba(255, 255, 255, 0.85);
     font-size: 0.85rem;
     margin: 0;
+    font-weight: 400;
   }
 }
 
@@ -67,7 +69,7 @@ $yellow: #f5c200;
   gap: 8px;
   color: white;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.9rem;  
 
   .user-icon-img {
     width: 22px;
@@ -76,7 +78,8 @@ $yellow: #f5c200;
   }
 
   .user-name {
-    font-weight: 300;
+    font-weight: 400;
+    font-family: 'Segoe UI', sans-serif;
   }
 
   .arrow {
@@ -100,6 +103,8 @@ $yellow: #f5c200;
     padding: 10px 16px;
     font-size: 0.9rem;
     color: $red;
+    font-weight: 700;
+    font-family: 'Segoe UI', sans-serif;
     font-weight: 600;
     cursor: pointer;
     margin: 0;
@@ -179,6 +184,7 @@ $yellow: #f5c200;
  
 /* Report Card */
 .report-card {
+  background-color: white;
   border: 1.5px solid #D4D4D4;
   border-radius: 12px;
   padding: 20px 24px;
@@ -253,18 +259,4 @@ $yellow: #f5c200;
 .status-closed {
   background-color: #ffebee;
   color: #c62828;
-}
-
-.snackbar {
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #f5c200;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 0.88rem;
-  font-weight: 500;
-  z-index: 999;
 }

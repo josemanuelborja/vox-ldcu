@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { submit } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-ticket',
@@ -96,7 +95,6 @@ export class TicketComponent {
 
     // If all fields are filled
     this.errorMessage = '';
-    localStorage.setItem('snackbar', 'Report submitted successfully!');
   
     // submit report ni padulong dashboard
     this.router.navigate(['/dashboard']); 

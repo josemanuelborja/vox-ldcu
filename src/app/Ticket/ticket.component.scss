@@ -10,6 +10,7 @@ $yellow: #f5c200;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .navbar-left {
@@ -18,12 +19,14 @@ $yellow: #f5c200;
     font-size: 1.4rem;
     font-weight: 800;
     margin: 0;
+    font-family: 'Segoe UI', sans-serif;
   }
 
   .nav-subtitle {
     color: rgba(255, 255, 255, 0.85);
     font-size: 0.85rem;
     margin: 0;
+    font-weight: 400;
   }
 }
 

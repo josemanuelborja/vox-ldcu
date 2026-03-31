@@ -13,14 +13,9 @@ export class DashboardComponent implements OnInit{
 
   // Student name shown in the navbar
   studentName: string = 'Jose Borja';
-
-  // This will hold the list of reports (wala pay sulod)
+ // This will hold the list of reports (wala pay sulod)
   reports: any[] = [];
-
-  showSnackbar: boolean = false;
-  snackbarMessage: string = '';
-
-  // Dropdown toggle
+ // Dropdown toggle
   isDropdownOpen: boolean = false;
   
   getStatusClass(status: string): string {
@@ -37,24 +32,8 @@ export class DashboardComponent implements OnInit{
 
    ngOnInit() {
     this.loadReports();
-
-    const message = localStorage.getItem('snackbar');
-    if (message) {
-      this.showMessage(message);
-      localStorage.removeItem('snackbar');
-    }
-
     
   }
-
-  showMessage(message: string) {
-  this.snackbarMessage = message;
-  this.showSnackbar = true;
-
-  setTimeout(() => {
-    this.showSnackbar = false;
-  }, 2000);
-}
 
   loadReports() {
     const saved = localStorage.getItem('reports');

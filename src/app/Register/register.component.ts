@@ -38,7 +38,6 @@ export class RegisterComponent {
     }
 
     this.errorMessage = '';
-    localStorage.setItem('snackbar', 'Registration successful! You can now login.');
     this.router.navigate(['/login'])
   }
 }

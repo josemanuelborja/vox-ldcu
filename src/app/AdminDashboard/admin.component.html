@@ -1,5 +1,4 @@
 <div class="navbar">
-  <div class="snackbar" *ngIf="showSnackbar">{{ snackbarMessage }}</div>
   <div class="navbar-left">
     <p class="nav-title">Admin Dashboard</p>
     <p class="nav-subtitle">Manage all reports</p>
@@ -94,7 +93,6 @@
         <p (click)="filterType = 'All Reports'; isTypeFilterOpen = false">All Reports</p>
         <p (click)="filterType = 'Suggestion'; isTypeFilterOpen = false">Suggestion</p>
         <p (click)="filterType = 'Complain'; isTypeFilterOpen = false">Complain</p>
-        <p (click)="filterType = 'Inquiry'; isTypeFilterOpen = false">Inquiry</p>
       </div>
     </div>
   </div>

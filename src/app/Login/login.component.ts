@@ -17,26 +17,8 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   errorMessage: string = '';
-  showSnackbar: boolean = false;
-  snackbarMessage: string = '';
 
   constructor(private router: Router) {}
-
-  ngOnInit() {
-    const message = localStorage.getItem('snackbar');
-    if (message) {
-      this.showMessage(message);
-      localStorage.removeItem('snackbar');
-    }
-  }
-
-  showMessage(message: string) {
-    this.snackbarMessage = message;
-    this.showSnackbar = true;
-    setTimeout(() => {
-      this.showSnackbar = false;
-    }, 2000);
-  }
 
   // kani nga function mo run kung i-click ang login button
   onLogin() {
@@ -50,12 +32,10 @@ export class LoginComponent {
     if (this.email === 'admin@liceo.edu.ph' && this.password === '123123123') {
       this.errorMessage = '';
       this.router.navigate(['/adminDashboard']);
-      localStorage.setItem('snackbar', 'Login successfully!');
 
     } else if (this.email === 'student@liceo.edu.ph' && this.password === 'password123') {
       this.errorMessage = '';
       this.router.navigate(['/dashboard']);
-      localStorage.setItem('snackbar', 'Login successfully!');
 
     } else {
       this.errorMessage = 'Invalid email or password.';

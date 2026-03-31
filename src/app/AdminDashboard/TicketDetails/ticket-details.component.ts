@@ -12,25 +12,11 @@ import { FormsModule } from '@angular/forms'
 })
 export class TicketDetailsComponent implements OnInit {
 
-  
   report: any = null;
   selectedStatus: string = 'Submitted';
   newComment: string = '';
   adminResponses: any[] = [];
-
-  showSnackBar: boolean = false;
-  snackbarMessage: string = '';
-
-  showMessage(message: string) {
-    this.snackbarMessage = message;
-    this.showSnackBar = true;
-
-    setTimeout(() => {
-      this.showSnackBar = false;
-    }, 2000);
-  }
-
-  isStatusOpen: boolean = false;
+ isStatusOpen: boolean = false;
 
   selectStatus(status: string) {
     this.selectedStatus = status;
@@ -92,20 +78,17 @@ export class TicketDetailsComponent implements OnInit {
     }
     localStorage.setItem('reports', JSON.stringify(reports));
 
-    this.showMessage('Saved successfully!');
   }
 
   onDeleteResponse(response: any) {
   this.adminResponses = this.adminResponses.filter(r => r !== response);
   localStorage.setItem('responses_' + this.report.id, JSON.stringify(this.adminResponses));
-  this.showMessage('Deleted successfully!');
 }
 
   onCancel() {
     if (this.newComment.trim() || this.selectedStatus !== this.report.status) {
       this.newComment = '';
       this.selectedStatus = this.report.status;
-      this.showMessage('Cancelled successfully!');
     }
   }
 
