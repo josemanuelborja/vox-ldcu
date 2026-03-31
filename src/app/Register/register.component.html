@@ -38,6 +38,14 @@
       [(ngModel)]="password"
     />
 
+    <label for="confirmPassword">Confirm Password</label>
+<input
+  id="confirmPassword"
+  type="password"
+  placeholder="••••••••••"
+  [(ngModel)]="confirmPassword"
+/>
+
     <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
 
     <button class="btn-login" (click)="onRegister()">Register</button>

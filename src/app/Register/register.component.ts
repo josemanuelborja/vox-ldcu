@@ -16,13 +16,14 @@ export class RegisterComponent {
   studentId: string = '';
   email: string = '';
   password: string = '';
+  confirmPassword: string = '';
   errorMessage: string = '';
 
   constructor(private router: Router) {}
 
   onRegister() {
 
-    if (!this.fullName || !this.studentId || !this.email || !this.password) {
+    if (!this.fullName || !this.studentId || !this.email || !this.password || !this.confirmPassword) {
       this.errorMessage = 'Please fill in all fields.';
       return;
     }
@@ -34,6 +35,11 @@ export class RegisterComponent {
 
     if (this.password.length < 6) {
       this.errorMessage = 'Password must be at least 6 characters.';
+      return;
+    }
+
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage = 'Passwords do not match.';
       return;
     }
 

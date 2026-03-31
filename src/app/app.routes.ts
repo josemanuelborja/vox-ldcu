@@ -7,7 +7,6 @@ import { ForgotPasswordComponent } from './ForgotPassword/forgot-password.compon
 import { ReportDetailsComponent } from './ReportDetails/ReportDetails.component';
 import { AdminComponent } from './AdminDashboard/admin.component';
 import { TicketDetailsComponent } from './AdminDashboard/TicketDetails/ticket-details.component';
-import { Component } from '@angular/core';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },  // ← Default Login Page nako 
