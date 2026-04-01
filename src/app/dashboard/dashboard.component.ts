@@ -24,10 +24,20 @@ export class DashboardComponent implements OnInit{
   getStatusClass(status: string): string {
     switch (status) {
       case 'submitted': return 'status-submitted';
-      case 'in_Progress': return 'status-progress';
+      case 'in_progress': return 'status-progress';
       case 'resolved': return 'status-resolved';
       case 'closed': return 'status-closed';
       default: return '';
+    }
+  }
+
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'submitted': return 'Submitted';
+      case 'in_progress': return 'In Progress';
+      case 'resolved': return 'Resolved';
+      case 'closed': return 'Closed';
+      default: return status;
     }
   }
   

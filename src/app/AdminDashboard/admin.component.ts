@@ -45,10 +45,20 @@ export class AdminComponent implements OnInit, AfterViewInit {
   getStatusClass(status: string): string {
     switch (status) {
       case 'submitted': return 'status-submitted';
-      case 'in_Progress': return 'status-progress';
+      case 'in_progress': return 'status-progress';
       case 'resolved': return 'status-resolved';
       case 'closed': return 'status-closed';
       default: return '';
+    }
+  }
+
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'submitted': return 'Submitted';
+      case 'in_progress': return 'In Progress';
+      case 'resolved': return 'Resolved';
+      case 'closed': return 'Closed';
+      default: return status;
     }
   }
 
@@ -72,13 +82,16 @@ export class AdminComponent implements OnInit, AfterViewInit {
           month: '2-digit', day: '2-digit', year: 'numeric'
         }),
         status: r.status,
-        submittedBy: r.submitted_by
+        submittedBy: r.submitted_by,
+        create_time: r.create_time
       }));
 
       this.totalReports = this.reports.length;
       this.submitted = this.reports.filter(r => r.status === 'submitted').length;
       this.inProgress = this.reports.filter(r => r.status === 'in_progress').length;
       this.resolved = this.reports.filter(r => r.status === 'resolved').length;
+
+      this.updateChart();
 
       this.cdr.detectChanges();
     } catch (err) {
@@ -88,6 +101,28 @@ export class AdminComponent implements OnInit, AfterViewInit {
       this.cdr.detectChanges();
     }
   }
+
+  updateChart() {
+  const monthlyCounts = Array(12).fill(0);
+
+  this.reports.forEach(r => {
+    const month = new Date(r.create_time).getMonth();
+    monthlyCounts[month]++;
+  });
+
+  if (this.chart) {
+    this.chart.data.datasets[0].data = monthlyCounts;
+
+    const maxCount = Math.max(...monthlyCounts);
+    this.chart.options.scales['y'].max = maxCount + 1; 
+    this.chart.options.scales['y'].ticks = {
+      stepSize: 0.5
+    };
+
+    this.chart.update();
+  }
+}
+
 
   ngAfterViewInit() {
     this.initChart();

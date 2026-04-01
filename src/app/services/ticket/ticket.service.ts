@@ -33,4 +33,10 @@ export class TicketService {
       this.http.delete<void>(`${this.API_URL}/${ticketId}`)
     );
   }
+  // ticket status
+  public async updateStatus(ticketId: number, status: string) {
+  return lastValueFrom(
+    this.http.patch<any>(`${this.API_URL}/${ticketId}/status`, { status })
+  );
+}
 }

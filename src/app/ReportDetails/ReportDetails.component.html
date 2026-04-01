@@ -14,9 +14,9 @@
     <div class="report-card" *ngIf="report">
       <div class="report-header">
         <h2 class="report-title">{{ report.title }}</h2>
-        <span class="report-status" [ngClass]="getStatusClass(report.status)">{{
-          report.status
-        }}</span>
+        <span class="report-status" [ngClass]="getStatusClass(report.status)">
+          {{ getStatusLabel(report.status) }}
+        </span>
       </div>
 
       <div class="report-detail">

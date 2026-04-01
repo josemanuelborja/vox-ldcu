@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'
+import { TicketService } from '../../services/ticket/ticket.service';
 
 @Component({
   selector: 'app-report-details',
@@ -13,27 +14,41 @@ import { FormsModule } from '@angular/forms'
 export class TicketDetailsComponent implements OnInit {
 
   report: any = null;
-  selectedStatus: string = 'Submitted';
+  selectedStatus: string = 'submitted';
   newComment: string = '';
   adminResponses: any[] = [];
- isStatusOpen: boolean = false;
+  isStatusOpen: boolean = false;
+
+   statusOptions = [
+    { value: 'submitted', label: 'Submitted' },
+    { value: 'in_progress', label: 'In Progress' },
+    { value: 'resolved', label: 'Resolved' },
+    { value: 'closed', label: 'Closed' }
+  ];
 
   selectStatus(status: string) {
     this.selectedStatus = status;
     this.isStatusOpen = false;
+    this.onSave();
+  }
+
+   getStatusLabel(status: string): string {
+    const option = this.statusOptions.find(o => o.value === status);
+    return option ? option.label : status;
   }
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'Submitted': return 'status-submitted';
-      case 'In Progress': return 'status-progress';
-      case 'Resolved': return 'status-resolved';
-      case 'Closed': return 'status-closed';
+      case 'submitted': return 'status-submitted';
+      case 'in_progress': return 'status-progress';
+      case 'resolved': return 'status-resolved';
+      case 'closed': return 'status-closed';
       default: return '';
     }
   }
+  
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private ticketService: TicketService) {}
 
   // Runs when page loads — kwaon ang selected report sa localStorage
   ngOnInit() {
@@ -48,15 +63,15 @@ export class TicketDetailsComponent implements OnInit {
 
   }
 
-  onSave() {
-
+  async onSave() {
     if (!this.newComment.trim() && this.selectedStatus === this.report.status) {
       return;
     }
-    // Save comment
+
+    // Save comment to localStorage
     if (this.newComment.trim()) {
       const response = {
-        name: 'Test Admin',
+        name: 'Admin',
         date: new Date().toLocaleString(),
         message: this.newComment
       };
@@ -65,19 +80,18 @@ export class TicketDetailsComponent implements OnInit {
       this.newComment = '';
     }
 
-    // Save status
-    this.report.status = this.selectedStatus;
-    localStorage.setItem('selectedReport', JSON.stringify(this.report));
-
-    let reports = JSON.parse(localStorage.getItem('reports') || '[]');
-    for (let i = 0; i < reports.length; i++) {
-      if (reports[i].id === this.report.id) {
-        reports[i].status = this.selectedStatus;  
-        break;
+    // ✅ UPDATE status sa backend
+    if (this.selectedStatus !== this.report.status) {
+      try {
+        await this.ticketService.updateStatus(this.report.id, this.selectedStatus);
+        
+        // ✅ Update locally after successful backend update
+        this.report.status = this.selectedStatus;
+        localStorage.setItem('selectedReport', JSON.stringify(this.report));
+      } catch (err) {
+        console.error('Failed to update status', err);
       }
     }
-    localStorage.setItem('reports', JSON.stringify(reports));
-
   }
 
   onDeleteResponse(response: any) {

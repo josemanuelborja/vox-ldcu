@@ -21,14 +21,13 @@
             [ngClass]="getStatusClass(selectedStatus)"
             (click)="isStatusOpen = !isStatusOpen"
           >
-            {{ selectedStatus }} ▾
+            {{ getStatusLabel(selectedStatus) }} ▾
           </span>
 
           <div class="status-options" *ngIf="isStatusOpen">
-            <p (click)="selectStatus('Submitted')">Submitted</p>
-            <p (click)="selectStatus('In Progress')">In Progress</p>
-            <p (click)="selectStatus('Resolved')">Resolved</p>
-            <p (click)="selectStatus('Closed')">Closed</p>
+             <p *ngFor="let option of statusOptions" (click)="selectStatus(option.value)">
+              {{ option.label }}
+             </p>
           </div>
         </div>
       </div>

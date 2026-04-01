@@ -18,13 +18,23 @@ export class ReportDetailsComponent implements OnInit {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'Submitted': return 'status-submitted';
-      case 'In Progress': return 'status-progress';
-      case 'Resolved': return 'status-resolved';
-      case 'Closed': return 'status-closed';
+      case 'submitted': return 'status-submitted';
+      case 'in_progress': return 'status-progress';
+      case 'resolved': return 'status-resolved';
+      case 'closed': return 'status-closed';
       default: return '';
     }
   }
+
+  getStatusLabel(status: string): string {
+  switch (status) {
+    case 'submitted': return 'Submitted';
+    case 'in_progress': return 'In Progress';
+    case 'resolved': return 'Resolved';
+    case 'closed': return 'Closed';
+    default: return status;
+  }
+}
 
   constructor(private router: Router) {}
 
