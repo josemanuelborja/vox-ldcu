@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { TicketService } from '../services/ticket/ticket.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,32 +14,55 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit{
 
   // Student name shown in the navbar
-  studentName: string = 'Jose Borja';
+  studentName: string = '';
  // This will hold the list of reports (wala pay sulod)
   reports: any[] = [];
  // Dropdown toggle
   isDropdownOpen: boolean = false;
+  isLoading = true;
   
   getStatusClass(status: string): string {
     switch (status) {
-      case 'Submitted': return 'status-submitted';
-      case 'In Progress': return 'status-progress';
-      case 'Resolved': return 'status-resolved';
-      case 'Closed': return 'status-closed';
+      case 'submitted': return 'status-submitted';
+      case 'in_Progress': return 'status-progress';
+      case 'resolved': return 'status-resolved';
+      case 'closed': return 'status-closed';
       default: return '';
     }
   }
+  
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private ticketService: TicketService, private cdr: ChangeDetectorRef) {}
 
-   ngOnInit() {
-    this.loadReports();
-    
+   async ngOnInit() {
+    const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+    this.studentName = user.full_name;
+    await this.loadReports(user.id);
   }
 
-  loadReports() {
-    const saved = localStorage.getItem('reports');
-    this.reports = saved ? JSON.parse(saved) : [];
+  async loadReports(userId: number) {
+    try {
+      const res = await this.ticketService.getTickets(userId);
+      this.reports = res.map((r: any) => ({
+        id: r.id,
+        title: r.title,
+        reportType: r.type_of_report,
+        category: r.category,
+        description: r.description,
+        attachment: r.attachment ?? 'No attachment',
+        date: new Date(r.create_time).toLocaleString('en-US', {
+          month: '2-digit', day: '2-digit', year: 'numeric'
+        }),
+        status: r.status,
+        submittedBy: r.submitted_by
+      }));
+      this.cdr.detectChanges();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
   }
 
 
@@ -54,7 +79,6 @@ export class DashboardComponent implements OnInit{
   onSubmitReport() {
     this.router.navigate(['/ticket']);
   }
-
 
   onLogout() {
     this.router.navigate(['/login']);

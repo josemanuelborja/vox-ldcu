@@ -1,8 +1,9 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Chart, registerables } from 'chart.js';
+import { TicketService } from '../services/ticket/ticket.service';
 
 Chart.register(...registerables);
 
@@ -21,12 +22,13 @@ export class AdminComponent implements OnInit, AfterViewInit {
   isDropdownOpen: boolean = false;
   isStatusFilterOpen: boolean = false;
   isTypeFilterOpen: boolean = false;
+  isLoading = true;
   chart: any = null;
   
-  totalReports = 4;
-  submitted = 2;
-  inProgress = 1;
-  resolved = 1;
+  totalReports = 0;
+  submitted = 0;
+  inProgress = 0;
+  resolved = 0;
   filterStatus = 'All Status';
   filterType = 'All Reports';
 
@@ -42,30 +44,54 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   getStatusClass(status: string): string {
     switch (status) {
-      case 'Submitted': return 'status-submitted';
-      case 'In Progress': return 'status-progress';
-      case 'Resolved': return 'status-resolved';
-      case 'Closed': return 'status-closed';
+      case 'submitted': return 'status-submitted';
+      case 'in_Progress': return 'status-progress';
+      case 'resolved': return 'status-resolved';
+      case 'closed': return 'status-closed';
       default: return '';
     }
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private ticketService: TicketService, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit() {
-    this.loadReports();
-
+  async ngOnInit() {
+    await this.loadReports();
   }
 
-  loadReports() {
-    const saved = localStorage.getItem('reports');
-    this.reports = saved ? JSON.parse(saved) : [];
+    async loadReports() {
+    try {
+      const res = await this.ticketService.getTickets(0);
+      this.reports = res.map((r: any) => ({
+        id: r.id,
+        title: r.title,
+        reportType: r.type_of_report,
+        category: r.category,
+        description: r.description,
+        attachment: r.attachment ?? 'No attachment',
+        date: new Date(r.create_time).toLocaleString('en-US', {
+          month: '2-digit', day: '2-digit', year: 'numeric'
+        }),
+        status: r.status,
+        submittedBy: r.submitted_by
+      }));
+
+      this.totalReports = this.reports.length;
+      this.submitted = this.reports.filter(r => r.status === 'submitted').length;
+      this.inProgress = this.reports.filter(r => r.status === 'in_progress').length;
+      this.resolved = this.reports.filter(r => r.status === 'resolved').length;
+
+      this.cdr.detectChanges();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
   }
 
   ngAfterViewInit() {
     this.initChart();
   }
-
   initChart() {
     this.chart = new Chart(this.barChartRef.nativeElement, {
       type: 'bar',

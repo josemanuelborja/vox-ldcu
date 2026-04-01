@@ -14,6 +14,7 @@ export class ReportDetailsComponent implements OnInit {
   
   report: any = null;
   adminResponses: any[] = [];
+  submittedBy: string = '';
 
   getStatusClass(status: string): string {
     switch (status) {
@@ -29,12 +30,14 @@ export class ReportDetailsComponent implements OnInit {
 
   // Runs when page loads — kwaon ang selected report sa localStorage
   ngOnInit() {
+
     const saved = localStorage.getItem('selectedReport');
     this.report = saved ? JSON.parse(saved) : null;
 
-    if(this.report) {
-      const  responses = localStorage.getItem('responses_' + this.report.id);
-      this.adminResponses = responses ? JSON.parse(responses): [];
+    if (this.report) {
+      this.submittedBy = this.report.submittedBy;
+      const responses = localStorage.getItem('responses_' + this.report.id);
+      this.adminResponses = responses ? JSON.parse(responses) : [];
     }
 
   }

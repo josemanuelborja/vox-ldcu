@@ -40,9 +40,9 @@
         <div class="report-card" *ngFor="let report of reports" (click)="onViewReport(report)">
           <div class="report-header">
             <h3 class="report-title">{{ report.title }}</h3>
-            <span class="report-status" [ngClass]="getStatusClass(report.status)">{{
-              report.status
-            }}</span>
+            <span class="report-status" [ngClass]="getStatusClass(report.status)">
+              {{ report.status }}
+            </span>
           </div>
 
           <div class="report-meta">

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TicketService } from '../services/ticket/ticket.service';
 
 @Component({
   selector: 'app-ticket',
@@ -19,6 +20,7 @@ export class TicketComponent {
   description: string = '';
   attachment: File | null = null;
   errorMessage: string = '';
+  isSubmitting = false;
 
   errors = {
     title: '',
@@ -32,7 +34,7 @@ export class TicketComponent {
   reportTypes: string[] = ['Complaint', 'Suggestion'];
   categories: string[] = ['Facilities', 'Faculty', 'Administration', 'Others'];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private ticketService: TicketService) {}
 
   // This runs when user picks a file
   onFileChange(event: any) {
@@ -52,7 +54,7 @@ export class TicketComponent {
 }
 
   // This runs when user clicks "Submit Report"
-  onSubmit() {
+  async onSubmit() {
     
     this.errors = {title: '', reportType: '', category: '', description: '',attachment: ''};
 
@@ -77,29 +79,28 @@ export class TicketComponent {
       return;
     }
 
-    const newReport = {
+    const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+
+    const payload = {
+      user_id: user.id,
       title: this.title,
-      reportType: this.reportType,
-      category: this.category,
+      type_of_report: this.reportType.toLowerCase(),
+      category: this.category.toLowerCase(),
       description: this.description,
-      attachment: this.attachment ? this.attachment.name : 'No attachment',
-      date: new Date().toLocaleString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'}),
-      status: 'Submitted',
-      submittedBy: 'Ashton Nathanel A. Lactuan'
+      attachment: this.attachment?.name ?? null
+    };
+
+    this.isSubmitting = true;
+
+    try {
+      await this.ticketService.createTicket(payload);
+      this.router.navigate(['/dashboard']);
+    } catch (err) {
+      this.errorMessage = 'Failed to submit report. Please try again.';
+    } finally {
+      this.isSubmitting = false;
     }
-
-    const existing = localStorage.getItem('reports');
-    const reports = existing  ? JSON.parse(existing) : [];
-    reports.unshift(newReport);
-    localStorage.setItem('reports', JSON.stringify(reports));
-
-    // If all fields are filled
-    this.errorMessage = '';
-  
-    // submit report ni padulong dashboard
-    this.router.navigate(['/dashboard']); 
   }
-
   // kani pabalik ni sya sa dashboard
   goBack() {
     this.router.navigate(['/dashboard']);

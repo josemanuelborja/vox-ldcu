@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -18,8 +19,9 @@ export class RegisterComponent {
   password: string = '';
   confirmPassword: string = '';
   errorMessage: string = '';
+  isLoading = false;
 
-  constructor(private router: Router) {}
+   constructor(private router: Router, private http: HttpClient) {}
 
   onRegister() {
 
@@ -42,8 +44,26 @@ export class RegisterComponent {
       this.errorMessage = 'Passwords do not match.';
       return;
     }
+    
+    const payload = {
+      full_name: this.fullName,
+      student_id: this.studentId,
+      email: this.email,
+      password: this.password,
+      confirm_password: this.confirmPassword
+    };
 
-    this.errorMessage = '';
-    this.router.navigate(['/login'])
+    this.isLoading = true;
+
+    this.http.post<any>('http://localhost:3000/api/auth/register', payload).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.errorMessage = err.error.message || 'Registration failed. Please try again.';
+        this.isLoading = false;
+      }
+    });
   }
 }
