@@ -309,3 +309,26 @@ $yellow: #f5c200;
   background-color: #ffebee;
   color: #c62828;
 }
+
+.report-box {
+  border: 1.5px solid #D4D4D4;
+  border-radius: 12px;
+  padding: 58.5px 24px;
+  cursor: pointer;
+  margin-top: 21px;
+}
+
+.empty-state {
+  text-align: center;
+
+  .file-icon {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+  }
+
+  .empty-text {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+}

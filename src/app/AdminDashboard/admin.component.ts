@@ -36,8 +36,8 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   get filteredReports() {
   return this.reports.filter(report => {
-    const statusMatch = this.filterStatus === 'All Status' || report.status === this.filterStatus;
-    const typeMatch = this.filterType === 'All Reports' || report.reportType === this.filterType;
+    const statusMatch = this.filterStatus === 'All Status' || report.status === this.filterStatus.toLowerCase();
+    const typeMatch = this.filterType === 'All Reports' || report.reportType === this.filterType.toLowerCase();
     return statusMatch && typeMatch;
   });
 }

@@ -99,7 +99,14 @@
 
 </div>
 
-  <div class="report-list" *ngIf="reports.length > 0">
+  <div class="report-box" *ngIf="filteredReports.length === 0">
+    <div class="empty-state">
+      <img src="/assets/images/file-dots.svg" class="icon" alt="file" />
+      <p class="empty-text">No reports submitted yet</p>
+    </div>
+  </div>
+
+  <div class="report-list" *ngIf="filteredReports.length > 0">
     <div class="report-card" *ngFor="let report of filteredReports" (click)="onViewReport(report)">
       <div class="report-header">
         <h3 class="report-title">{{ report.title }}</h3>
