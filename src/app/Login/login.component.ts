@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router'; 
 import { HttpClient } from '@angular/common/http';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-login',
@@ -45,13 +46,15 @@ export class LoginComponent {
         this.isLoading = false;
 
         if (res.role === 'admin') {
+          toast.success('Login successful!');
           this.router.navigate(['/adminDashboard']);
         } else {
+          toast.success('Login successful!');
           this.router.navigate(['/dashboard']); 
         }
       },
       error: (err) => {
-        this.errorMessage = err.error.message || 'Invalid email or password.';
+        toast.error('Invalid email or password.');
         this.isLoading = false;
       }
     });

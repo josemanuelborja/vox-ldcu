@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-register',
@@ -58,11 +59,13 @@ export class RegisterComponent {
     this.http.post<any>('http://localhost:3000/api/auth/register', payload).subscribe({
       next: () => {
         this.isLoading = false;
+        toast.success('Registration successful');
         this.router.navigate(['/login']);
       },
       error: (err) => {
         this.errorMessage = err.error.message || 'Registration failed. Please try again.';
         this.isLoading = false;
+        toast.error('Registration failed. Please try again.');
       }
     });
   }

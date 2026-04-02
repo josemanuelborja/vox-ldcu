@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TicketService } from '../services/ticket/ticket.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-ticket',
@@ -94,8 +95,10 @@ export class TicketComponent {
 
     try {
       await this.ticketService.createTicket(payload);
+      toast.success('Report submitted successfully!');
       this.router.navigate(['/dashboard']);
     } catch (err) {
+      toast.error('Failed to submit report. Please try again.');
       this.errorMessage = 'Failed to submit report. Please try again.';
     } finally {
       this.isSubmitting = false;

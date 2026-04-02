@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'
 import { TicketService } from '../../services/ticket/ticket.service';
 import { ResponseService } from '../../services/response/response.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-report-details',
@@ -100,8 +101,9 @@ export class TicketDetailsComponent implements OnInit {
         });
         this.newComment = '';
         this.cdr.detectChanges();
+        toast.success('Saved successfully!')
       } catch (err) {
-        console.error('Failed to save response', err);
+        toast.error('Failed to save response.');
       }
     }
 
@@ -112,8 +114,9 @@ export class TicketDetailsComponent implements OnInit {
         this.report.status = this.selectedStatus;
         localStorage.setItem('selectedReport', JSON.stringify(this.report));
         this.cdr.detectChanges();
+        toast.success('Saved successfully!')
       } catch (err) {
-        console.error('Failed to update status', err);
+        toast.error('Failed to update status.');
       }
     }
   }
@@ -123,8 +126,9 @@ export class TicketDetailsComponent implements OnInit {
       await this.responseService.deleteResponse(response.id);
       this.adminResponses = this.adminResponses.filter(r => r.id !== response.id);
       this.cdr.detectChanges();
+      toast.success('Deleted successfully!');
     } catch (err) {
-      console.error('Failed to delete response', err);
+      toast.error('Failed to delete response.');
     }
   }
 
@@ -133,6 +137,7 @@ export class TicketDetailsComponent implements OnInit {
       this.newComment = '';
       this.selectedStatus = this.report.status;
       this.cdr.detectChanges();
+      toast.info('Changes cancelled.');
     }
   }
 
