@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'
 import { TicketService } from '../../services/ticket/ticket.service';
+import { ResponseService } from '../../services/response/response.service';
 
 @Component({
   selector: 'app-report-details',
@@ -29,7 +30,7 @@ export class TicketDetailsComponent implements OnInit {
   selectStatus(status: string) {
     this.selectedStatus = status;
     this.isStatusOpen = false;
-    this.onSave();
+    this.cdr.detectChanges();
   }
 
    getStatusLabel(status: string): string {
@@ -48,61 +49,90 @@ export class TicketDetailsComponent implements OnInit {
   }
   
 
-  constructor(private router: Router, private ticketService: TicketService) {}
+  constructor(private router: Router, private ticketService: TicketService, private responseService: ResponseService, private cdr: ChangeDetectorRef) {}
 
   // Runs when page loads — kwaon ang selected report sa localStorage
-  ngOnInit() {
+  async ngOnInit() {
     const saved = localStorage.getItem('selectedReport');
     this.report = saved ? JSON.parse(saved) : null;
 
     if (this.report) {
       this.selectedStatus = this.report.status;
-      const responses = localStorage.getItem('responses_' + this.report.id);
-      this.adminResponses = responses ? JSON.parse(responses) : [];
+      await this.loadResponses(); 
     }
 
   }
 
-  async onSave() {
-    if (!this.newComment.trim() && this.selectedStatus === this.report.status) {
-      return;
+  async loadResponses() {
+    try {
+      const res = await this.responseService.getResponses(this.report.id);
+      this.adminResponses = res.map(r => ({
+        id: r.id,
+        name: r.admin_name,
+        date: new Date(r.created_at).toLocaleString(),
+        message: r.message
+      }));
+      this.cdr.detectChanges();
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  async onSave() {
+    const statusChanged = this.selectedStatus !== this.report.status;
+    const hasComment = this.newComment.trim();
+
+    if (!hasComment && !statusChanged) return;
 
     // Save comment to localStorage
-    if (this.newComment.trim()) {
-      const response = {
-        name: 'Admin',
-        date: new Date().toLocaleString(),
-        message: this.newComment
-      };
-      this.adminResponses.push(response);
-      localStorage.setItem('responses_' + this.report.id, JSON.stringify(this.adminResponses));
-      this.newComment = '';
+    if (hasComment) {
+      try {
+        const res = await this.responseService.createResponse({
+          ticket_id: this.report.id,
+          admin_name: 'Admin',
+          message: this.newComment
+        });
+        this.adminResponses.push({
+          id: res.id,
+          name: res.admin_name,
+          date: res.created_at ? new Date(res.created_at).toLocaleString() : new Date().toLocaleString(),
+          message: res.message
+        });
+        this.newComment = '';
+        this.cdr.detectChanges();
+      } catch (err) {
+        console.error('Failed to save response', err);
+      }
     }
 
     // ✅ UPDATE status sa backend
     if (this.selectedStatus !== this.report.status) {
       try {
         await this.ticketService.updateStatus(this.report.id, this.selectedStatus);
-        
-        // ✅ Update locally after successful backend update
         this.report.status = this.selectedStatus;
         localStorage.setItem('selectedReport', JSON.stringify(this.report));
+        this.cdr.detectChanges();
       } catch (err) {
         console.error('Failed to update status', err);
       }
     }
   }
 
-  onDeleteResponse(response: any) {
-  this.adminResponses = this.adminResponses.filter(r => r !== response);
-  localStorage.setItem('responses_' + this.report.id, JSON.stringify(this.adminResponses));
-}
+  async onDeleteResponse(response: any) {
+    try {
+      await this.responseService.deleteResponse(response.id);
+      this.adminResponses = this.adminResponses.filter(r => r.id !== response.id);
+      this.cdr.detectChanges();
+    } catch (err) {
+      console.error('Failed to delete response', err);
+    }
+  }
 
   onCancel() {
     if (this.newComment.trim() || this.selectedStatus !== this.report.status) {
       this.newComment = '';
       this.selectedStatus = this.report.status;
+      this.cdr.detectChanges();
     }
   }
 

@@ -114,7 +114,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.chart.data.datasets[0].data = monthlyCounts;
 
     const maxCount = Math.max(...monthlyCounts);
-    this.chart.options.scales['y'].max = maxCount + 1; 
+    this.chart.options.scales['y'].max = maxCount + 7; 
     this.chart.options.scales['y'].ticks = {
       stepSize: 0.5
     };
