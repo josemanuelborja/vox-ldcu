@@ -56,8 +56,8 @@ export class DashboardComponent implements OnInit{
       this.reports = res.map((r: any) => ({
         id: r.id,
         title: r.title,
-        reportType: r.type_of_report,
-        category: r.category,
+        reportType: this.capitalize(r.type_of_report),
+        category: this.capitalize(r.category),
         description: r.description,
         attachment: r.attachment ?? 'No attachment',
         date: new Date(r.create_time).toLocaleString('en-US', {
@@ -75,6 +75,10 @@ export class DashboardComponent implements OnInit{
     }
   }
 
+  capitalize(str: string): string {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   onViewReport(report: any) {
     localStorage.setItem('selectedReport', JSON.stringify(report));

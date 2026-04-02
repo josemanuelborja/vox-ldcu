@@ -58,10 +58,16 @@ export class TicketDetailsComponent implements OnInit {
     this.report = saved ? JSON.parse(saved) : null;
 
     if (this.report) {
+      this.report.category = this.capitalize(this.report.category);
+      this.report.reportType = this.capitalize(this.report.reportType);
       this.selectedStatus = this.report.status;
       await this.loadResponses(); 
     }
+  }
 
+  capitalize(str: string): string {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   async loadResponses() {
@@ -107,7 +113,7 @@ export class TicketDetailsComponent implements OnInit {
       }
     }
 
-    // ✅ UPDATE status sa backend
+    // UPDATE status sa backend
     if (this.selectedStatus !== this.report.status) {
       try {
         await this.ticketService.updateStatus(this.report.id, this.selectedStatus);

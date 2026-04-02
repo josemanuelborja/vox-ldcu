@@ -45,13 +45,18 @@ export class ReportDetailsComponent implements OnInit {
     this.report = saved ? JSON.parse(saved) : null;
 
     if (this.report) {
+      this.report.category = this.capitalize(this.report.category);
+      this.report.reportType = this.capitalize(this.report.reportType);
       this.submittedBy = this.report.submittedBy;
       const responses = localStorage.getItem('responses_' + this.report.id);
       this.adminResponses = responses ? JSON.parse(responses) : [];
     }
 
   }
-
+  capitalize(str: string): string {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
   
   goBack() {
     this.router.navigate(['/dashboard']);
