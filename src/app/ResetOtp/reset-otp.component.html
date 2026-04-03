@@ -1,0 +1,25 @@
+<div class="page-wrapper">
+  <div class="card">
+    <div class="icon"><img src="/assets/images/mail.svg" alt="" /></div>
+
+    <h2 class="title">Check your email</h2>
+    <p class="subtitle">
+      Input the code that was sent to your email to reset your <strong> Password.</strong>
+    </p>
+
+     <div class="otp-container">
+      <input #otpInput type="text" maxlength="1" class="otp-input" (input)="onInput($event, 0)" (keydown)="onKeyDown($event, 0)" />
+      <input #otpInput type="text" maxlength="1" class="otp-input" (input)="onInput($event, 1)" (keydown)="onKeyDown($event, 1)" />
+      <input #otpInput type="text" maxlength="1" class="otp-input" (input)="onInput($event, 2)" (keydown)="onKeyDown($event, 2)" />
+      <input #otpInput type="text" maxlength="1" class="otp-input" (input)="onInput($event, 3)" (keydown)="onKeyDown($event, 3)" />
+    </div>
+
+    <button class="btn-confirm">Confirm</button>
+
+    <p class="resend">Didn't get any code? <a *ngIf="canResend" (click)="onResend()">Click to Resend</a>
+      <span *ngIf="!canResend" class="countdown">{{ getCountdown() }}</span>
+    </p>
+
+    <p class="backToLogin"><a routerLink="/login">Back to Login</a></p>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -16,7 +17,7 @@ export class ForgotPasswordComponent {
   email: string = '';
   errorMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   
   onReset() {
@@ -32,12 +33,17 @@ export class ForgotPasswordComponent {
       return;
     }
 
-   
     this.errorMessage = '';
-    alert('Reset Password sent to ' + this.email);
 
+    localStorage.setItem('resetEmail', this.email);
+    this.router.navigate(['/resetOtp']);
+
+    // ✅ Send OTP sa background
+    this.http.post<any>('http://localhost:3000/api/otp/send', { email: this.email }).subscribe({
+      next: () => console.log('OTP sent'),
+      error: (err) => console.error('Failed to send OTP', err)
+    });
   }
-
 
   onCancel() {
     this.router.navigate(['/login']);
