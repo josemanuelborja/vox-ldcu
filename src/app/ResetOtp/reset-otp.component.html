@@ -14,7 +14,7 @@
       <input #otpInput type="text" maxlength="1" class="otp-input" (input)="onInput($event, 3)" (keydown)="onKeyDown($event, 3)" />
     </div>
 
-    <button class="btn-confirm">Confirm</button>
+    <button class="btn-confirm" (click)="onConfirm()">Confirm</button>
 
     <p class="resend">Didn't get any code? <a *ngIf="canResend" (click)="onResend()">Click to Resend</a>
       <span *ngIf="!canResend" class="countdown">{{ getCountdown() }}</span>

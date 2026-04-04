@@ -95,9 +95,9 @@ export class ResetOtpComponent implements OnInit, OnDestroy {
     }
 
     this.http.post<any>('http://localhost:3000/api/otp/verify', { email, code }).subscribe({
-      next: () => this.router.navigate(['/resetPassword']),
+      next: () => this.router.navigate(['/confirmPassword']),
       error: (err) => {
-        this.errorMessage = err.error.message || 'Invalid or expired code.'; // ✅ Show validation
+        this.errorMessage = err.error.message || 'Invalid or expired code.'; // Show validation
       }
     });
   }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -36,6 +37,7 @@ export class ForgotPasswordComponent {
     this.errorMessage = '';
 
     localStorage.setItem('resetEmail', this.email);
+    toast.success('Code sent successfully!');
     this.router.navigate(['/resetOtp']);
 
     // ✅ Send OTP sa background

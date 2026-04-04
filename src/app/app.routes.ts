@@ -8,6 +8,7 @@ import { ReportDetailsComponent } from './ReportDetails/ReportDetails.component'
 import { AdminComponent } from './AdminDashboard/admin.component';
 import { TicketDetailsComponent } from './AdminDashboard/TicketDetails/ticket-details.component';
 import { ResetOtpComponent } from './ResetOtp/reset-otp.comoponent';
+import { ConfirmPasswordComponent } from './ConfirmPassword/confirm-password.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },  // ← Default Login Page nako 
@@ -20,4 +21,5 @@ export const routes: Routes = [
   { path: 'adminDashboard', component: AdminComponent }, // ←  (Admin Dashboard)
   { path: 'ticketDetails', component: TicketDetailsComponent }, // ← (Ticket Details)
   { path: 'resetOtp', component: ResetOtpComponent }, // ← (Reset OTP)
+  { path: 'confirmPassword', component: ConfirmPasswordComponent } // ← (Confirm Password)
 ];
