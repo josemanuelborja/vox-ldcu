@@ -9,8 +9,7 @@ export const authGuard = () => {
     return true; 
   }
 
-  router.navigate(['/login']); 
-  return false;
+  return router.createUrlTree(['/login']);
 };
 
 export const adminGuard = () => {
@@ -21,6 +20,5 @@ export const adminGuard = () => {
     return true; 
   }
 
-  router.navigate(['/login']);
-  return false;
+  return router.createUrlTree(['/login']);
 };
