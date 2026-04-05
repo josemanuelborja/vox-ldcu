@@ -174,6 +174,8 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   onLogout() {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }

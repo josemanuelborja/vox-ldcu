@@ -80,7 +80,7 @@ export class TicketComponent {
       return;
     }
 
-    const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+    const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
 
     const payload = {
       user_id: user.id,

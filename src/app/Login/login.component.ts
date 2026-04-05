@@ -41,7 +41,8 @@ export class LoginComponent {
 
     this.http.post<any>('http://localhost:3000/api/auth/login', payload).subscribe({
       next: (res) => {
-        localStorage.setItem('user', JSON.stringify(res));
+        sessionStorage.setItem('token', res.token);
+        sessionStorage.setItem('user', JSON.stringify(res)); 
 
         this.isLoading = false;
 

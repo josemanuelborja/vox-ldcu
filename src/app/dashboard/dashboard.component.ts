@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit{
   constructor(private router: Router, private ticketService: TicketService, private cdr: ChangeDetectorRef) {}
 
    async ngOnInit() {
-    const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+    const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
     this.studentName = user.full_name;
     await this.loadReports(user.id);
   }
@@ -95,6 +95,8 @@ export class DashboardComponent implements OnInit{
   }
 
   onLogout() {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }
