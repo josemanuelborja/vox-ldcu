@@ -240,3 +240,97 @@ $dark-red: #7a1414;
   background-color: #ffebee;
   color: #c62828;
 }
+
+.response-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.response-card {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.response-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.response-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: black;
+}
+
+.response-date {
+  font-size: 0.78rem;
+  color: #888;
+  margin-left: 12px;
+  flex: 1;
+}
+
+.response-text {
+  font-size: 0.85rem;
+  color: #444;
+  margin: 0;
+}
+
+.no-response {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.comment-box {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  outline: none;
+  resize: none;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+
+  &:focus { border-color: $red; }
+}
+
+.btn-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn-cancel {
+  padding: 10px 24px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 50px;
+  background: white;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover { background: #f5f5f5; }
+}
+
+.btn-save {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 50px;
+  background: $red;
+  color: white;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: $dark-red;
+}
+
+.btn-inactive {
+  background: #ccc;     
+  cursor: not-allowed;
+}

@@ -25,9 +25,9 @@
           </span>
 
           <div class="status-options" *ngIf="isStatusOpen">
-             <p *ngFor="let option of statusOptions" (click)="selectStatus(option.value)">
+            <p *ngFor="let option of statusOptions" (click)="selectStatus(option.value)">
               {{ option.label }}
-             </p>
+            </p>
           </div>
         </div>
       </div>
@@ -79,14 +79,16 @@
 
       <!-- Admin Responses -->
       <div class="report-section">
-        <h3 class="section-label">Admin Responses</h3>
+        <h3 class="section-label">Comment</h3>
 
         <div class="response-list">
           <div class="response-card" *ngFor="let response of adminResponses">
             <div class="response-header">
               <span class="response-name">{{ response.name }}</span>
               <span class="response-date">{{ response.date }}</span>
-              <button class="btn-delete" (click)="onDeleteResponse(response)"><img src="/assets/images/trash.svg" class="trash-icon" alt="delete" /></button>
+              <button class="btn-delete" (click)="onDeleteResponse(response)">
+                <img src="/assets/images/trash.svg" class="trash-icon" alt="delete" />
+              </button>
             </div>
             <p class="response-text">{{ response.message }}</p>
           </div>
@@ -104,8 +106,15 @@
 
         <div class="btn-row">
           <button class="btn-cancel" (click)="onCancel()">Cancel</button>
-          <button class="btn-save" (click)="onSave()" [ngClass]="newComment.trim() || selectedStatus !== report.status ? 'btn-save' : 'btn-inactive'">Save</button>
-          
+          <button
+            class="btn-save"
+            (click)="onSave()"
+            [ngClass]="
+              newComment.trim() || selectedStatus !== report.status ? 'btn-save' : 'btn-inactive'
+            "
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>

@@ -64,23 +64,41 @@
 
       <hr class="divider" />
 
-    <div class="report-section">
-      <h3 class="section-label">Admin Responses</h3>
+      <div class="report-section">
 
-      <div class="response-list">
-        <div class="response-card" *ngFor="let response of adminResponses">
-          <div class="response-header">
-            <span class="response-name">{{ response.name }}</span>
-            <span class="response-date">{{ response.date }}</span>
+        <div class="response-list">
+          <div class="response-card" *ngFor="let response of adminResponses">
+            <div class="response-header">
+              <span class="response-name">{{ response.name }}</span>
+              <span class="response-date">{{ response.date }}</span>
+            </div>
+            <p class="response-text">{{ response.message }}</p>
           </div>
-          <p class="response-text">{{ response.message }}</p>
+          <p class="no-response" *ngIf="adminResponses.length === 0">No responses yet.</p>
         </div>
-        <p class="no-response" *ngIf="adminResponses.length === 0">No responses yet.</p>
+      </div>
+      <textarea
+        class="comment-box"
+        placeholder="Write your comment here..."
+        [(ngModel)]="newComment"
+        name="newComment"
+        rows="4"
+        (keydown.enter)="onSave(); $event.preventDefault()"
+      >
+      </textarea>
+
+      <div class="btn-row">
+        <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+        <button
+          class="btn-save"
+          (click)="onSave()"
+          [ngClass]="newComment.trim() ? 'btn-save' : 'btn-inactive'"
+          [disabled]="isSubmitting"
+        >
+          {{ isSubmitting ? 'Saving...' : 'Save' }}
+        </button>
       </div>
     </div>
-
-    </div>
-
 
     <div class="empty-state" *ngIf="!report">
       <p>No report found.</p>

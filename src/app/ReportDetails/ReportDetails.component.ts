@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ResponseService } from '../services/response/response.service';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-report-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './ReportDetails.component.html',
   styleUrls: ['./ReportDetails.component.scss']
 })
@@ -15,6 +18,8 @@ export class ReportDetailsComponent implements OnInit {
   report: any = null;
   adminResponses: any[] = [];
   submittedBy: string = '';
+  newComment = ''; 
+  isSubmitting = false; 
 
   getStatusClass(status: string): string {
     switch (status) {
@@ -36,10 +41,10 @@ export class ReportDetailsComponent implements OnInit {
   }
 }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private responseService: ResponseService, private cdr: ChangeDetectorRef) {}
 
   // Runs when page loads — kwaon ang selected report sa localStorage
-  ngOnInit() {
+   async ngOnInit() {
 
     const saved = localStorage.getItem('selectedReport');
     this.report = saved ? JSON.parse(saved) : null;
@@ -48,10 +53,58 @@ export class ReportDetailsComponent implements OnInit {
       this.report.category = this.capitalize(this.report.category);
       this.report.reportType = this.capitalize(this.report.reportType);
       this.submittedBy = this.report.submittedBy;
-      const responses = localStorage.getItem('responses_' + this.report.id);
-      this.adminResponses = responses ? JSON.parse(responses) : [];
+      await this.loadResponses(); 
     }
+  }
 
+  async loadResponses() {
+    try {
+      const res = await this.responseService.getResponses(this.report.id);
+      this.adminResponses = res.map(r => ({
+        id: r.id,
+        name: r.admin_name,
+        date: new Date(r.created_at).toLocaleString(),
+        message: r.message
+      }));
+      this.cdr.detectChanges();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async onSave() {
+    if (!this.newComment.trim()) return;
+
+    const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
+
+    this.isSubmitting = true;
+    try {
+      const res = await this.responseService.createResponse({
+        ticket_id: this.report.id,
+        admin_name: user.full_name,
+        message: this.newComment
+      });
+
+      this.adminResponses.push({
+        id: res.id,
+        name: res.admin_name,
+        date: res.created_at ? new Date(res.created_at).toLocaleString() : new Date().toLocaleString(),
+        message: res.message
+      });
+
+      this.newComment = '';
+      this.cdr.detectChanges();
+      toast.success('Comment submitted!');
+    } catch (err) {
+      toast.error('Failed to submit comment.');
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
+  
+  onCancel() {
+    this.newComment = '';
+    this.cdr.detectChanges();
   }
   capitalize(str: string): string {
     if (!str) return '';

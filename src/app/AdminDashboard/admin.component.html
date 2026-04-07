@@ -64,40 +64,38 @@
 
   <!-- Filters -->
   <div class="filter-row">
+    <!-- Filter by Status -->
+    <div class="filter-group">
+      <label>Filter by Status</label>
+      <div class="filter-wrapper">
+        <span class="filter-btn" (click)="isStatusFilterOpen = !isStatusFilterOpen">
+          {{ filterStatus }} ▾
+        </span>
+        <div class="filter-options" *ngIf="isStatusFilterOpen">
+          <p (click)="filterStatus = 'All Status'; isStatusFilterOpen = false">All Status</p>
+          <p (click)="filterStatus = 'Submitted'; isStatusFilterOpen = false">Submitted</p>
+          <p (click)="filterStatus = 'In Progress'; isStatusFilterOpen = false">In Progress</p>
+          <p (click)="filterStatus = 'Resolved'; isStatusFilterOpen = false">Resolved</p>
+          <p (click)="filterStatus = 'Closed'; isStatusFilterOpen = false">Closed</p>
+        </div>
+      </div>
+    </div>
 
-  <!-- Filter by Status -->
-  <div class="filter-group">
-    <label>Filter by Status</label>
-    <div class="filter-wrapper">
-      <span class="filter-btn" (click)="isStatusFilterOpen = !isStatusFilterOpen">
-        {{ filterStatus }} ▾
-      </span>
-      <div class="filter-options" *ngIf="isStatusFilterOpen">
-        <p (click)="filterStatus = 'All Status'; isStatusFilterOpen = false">All Status</p>
-        <p (click)="filterStatus = 'Submitted'; isStatusFilterOpen = false">Submitted</p>
-        <p (click)="filterStatus = 'In Progress'; isStatusFilterOpen = false">In Progress</p>
-        <p (click)="filterStatus = 'Resolved'; isStatusFilterOpen = false">Resolved</p>
-        <p (click)="filterStatus = 'Closed'; isStatusFilterOpen = false">Closed</p>
+    <!-- Type of Report -->
+    <div class="filter-group">
+      <label>Type of Report</label>
+      <div class="filter-wrapper">
+        <span class="filter-btn" (click)="isTypeFilterOpen = !isTypeFilterOpen">
+          {{ filterType }} ▾
+        </span>
+        <div class="filter-options" *ngIf="isTypeFilterOpen">
+          <p (click)="filterType = 'All Reports'; isTypeFilterOpen = false">All Reports</p>
+          <p (click)="filterType = 'Suggestion'; isTypeFilterOpen = false">Suggestion</p>
+          <p (click)="filterType = 'Complain'; isTypeFilterOpen = false">Complain</p>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- Type of Report -->
-  <div class="filter-group">
-    <label>Type of Report</label>
-    <div class="filter-wrapper">
-      <span class="filter-btn" (click)="isTypeFilterOpen = !isTypeFilterOpen">
-        {{ filterType }} ▾
-      </span>
-      <div class="filter-options" *ngIf="isTypeFilterOpen">
-        <p (click)="filterType = 'All Reports'; isTypeFilterOpen = false">All Reports</p>
-        <p (click)="filterType = 'Suggestion'; isTypeFilterOpen = false">Suggestion</p>
-        <p (click)="filterType = 'Complain'; isTypeFilterOpen = false">Complain</p>
-      </div>
-    </div>
-  </div>
-
-</div>
 
   <div class="report-box" *ngIf="filteredReports.length === 0">
     <div class="empty-state">
@@ -110,7 +108,7 @@
     <div class="report-card" *ngFor="let report of filteredReports" (click)="onViewReport(report)">
       <div class="report-header">
         <h3 class="report-title">{{ report.title }}</h3>
-        <span class="report-status" [ngClass]="getStatusClass(report.status)" >
+        <span class="report-status" [ngClass]="getStatusClass(report.status)">
           {{ getStatusLabel(report.status) }}
         </span>
       </div>
@@ -121,7 +119,7 @@
         <span class="date"><strong>Date Created:</strong> {{ report.date }}</span>
       </div>
 
-      <p class="report-description" style="word-break: break-all;">{{ report.description }}</p>
+      <p class="report-description" style="word-break: break-all">{{ report.description }}</p>
     </div>
   </div>
 </div>

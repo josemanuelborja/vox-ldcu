@@ -1,19 +1,11 @@
 <div class="login-wrapper">
   <div class="login-card">
-
-    <div>
-      <span class="brand-vox">Vox</span><span class="brand-ldcu">LDCU</span>
-    </div>
+    <div><span class="brand-vox">Vox</span><span class="brand-ldcu">LDCU</span></div>
     <p class="brand-subtitle">Login to share your suggestion and complains!</p>
 
     <!-- Email Field -->
     <label for="email">Email</label>
-    <input
-      id="email"
-      type="email"
-      placeholder="student@liceo.edu.ph"
-      [(ngModel)]="email"
-    />
+    <input id="email" type="email" placeholder="student@liceo.edu.ph" [(ngModel)]="email" />
 
     <!-- Password Field -->
     <label for="password">Password</label>
@@ -32,13 +24,10 @@
     <button class="btn-login" (click)="onLogin()">Login</button>
 
     <!-- Register Link -->
-    <p class="register-link">
-      Don't have an account? <a routerLink="/register">Register</a>
-    </p>
+    <p class="register-link">Don't have an account? <a routerLink="/register">Register</a></p>
 
     <p class="forgotPassword-link">
-    <a routerLink="/forgotPassword">Forgot Password</a>
+      <a routerLink="/forgotPassword">Forgot Password</a>
     </p>
-
   </div>
 </div>
