@@ -36,14 +36,17 @@ export class ForgotPasswordComponent {
 
     this.errorMessage = '';
 
-    localStorage.setItem('resetEmail', this.email);
-    toast.success('Code sent successfully!');
-    this.router.navigate(['/resetOtp']);
+      this.http.post<any>('http://localhost:3000/api/auth/check-email', { email: this.email }).subscribe({
+      next: () => {
+        localStorage.setItem('resetEmail', this.email);
+        toast.success('Code sent successfully!');
+        this.router.navigate(['/resetOtp']);
 
-    // ✅ Send OTP sa background
-    this.http.post<any>('http://localhost:3000/api/otp/send', { email: this.email }).subscribe({
-      next: () => console.log('OTP sent'),
-      error: (err) => console.error('Failed to send OTP', err)
+        this.http.post<any>('http://localhost:3000/api/otp/send', { email: this.email }).subscribe();
+      },
+      error: (err) => {
+        toast.error(err.error.message || 'Email not found. Please register first.');
+      }
     });
   }
 
