@@ -404,3 +404,9 @@ $dark-red: #7a1414;
   color: #aaa;
   margin-left: 4px;
 }
+
+.response-text {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
