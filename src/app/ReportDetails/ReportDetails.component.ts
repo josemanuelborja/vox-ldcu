@@ -19,7 +19,11 @@ export class ReportDetailsComponent implements OnInit {
   adminResponses: any[] = [];
   submittedBy: string = '';
   newComment = ''; 
-  isSubmitting = false; 
+  isSubmitting = false;
+  currentUserName: string = '';
+  editingResponseId: number | null = null;
+  editingMessage: string = '';
+  openMenuId: number | null = null;
 
   getStatusClass(status: string): string {
     switch (status) {
@@ -43,8 +47,9 @@ export class ReportDetailsComponent implements OnInit {
 
   constructor(private router: Router, private responseService: ResponseService, private cdr: ChangeDetectorRef) {}
 
-  // Runs when page loads — kwaon ang selected report sa localStorage
-   async ngOnInit() {
+  async ngOnInit() {
+    const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
+    this.currentUserName = user.full_name ?? '';
 
     const saved = localStorage.getItem('selectedReport');
     this.report = saved ? JSON.parse(saved) : null;
@@ -53,7 +58,7 @@ export class ReportDetailsComponent implements OnInit {
       this.report.category = this.capitalize(this.report.category);
       this.report.reportType = this.capitalize(this.report.reportType);
       this.submittedBy = this.report.submittedBy;
-      await this.loadResponses(); 
+      await this.loadResponses();
     }
   }
 
@@ -77,7 +82,6 @@ export class ReportDetailsComponent implements OnInit {
     if (!this.newComment.trim()) return;
 
     const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
-
     this.isSubmitting = true;
     try {
       const res = await this.responseService.createResponse({
@@ -85,14 +89,13 @@ export class ReportDetailsComponent implements OnInit {
         admin_name: user.full_name,
         message: this.newComment
       });
-
       this.adminResponses.push({
         id: res.id,
         name: res.admin_name,
         date: res.created_at ? new Date(res.created_at).toLocaleString() : new Date().toLocaleString(),
-        message: res.message
+        message: res.message,
+        is_edited: false
       });
-
       this.newComment = '';
       this.cdr.detectChanges();
       toast.success('Comment submitted!');
@@ -101,6 +104,48 @@ export class ReportDetailsComponent implements OnInit {
     } finally {
       this.isSubmitting = false;
     }
+  }
+
+  toggleMenu(id: number) {
+    this.openMenuId = this.openMenuId === id ? null : id;
+    this.cdr.detectChanges();
+  }
+
+  onEditResponse(response: any) {
+    this.editingResponseId = response.id;
+    this.editingMessage = response.message;
+    this.cdr.detectChanges();
+  }
+
+  async onSaveEdit(response: any) {
+    if (!this.editingMessage.trim()) return;
+    try {
+      await this.responseService.updateResponse(response.id, this.editingMessage);
+      response.message = this.editingMessage;
+      response.is_edited = true;
+      this.editingResponseId = null;
+      this.cdr.detectChanges();
+      toast.success('Comment updated!');
+    } catch (err) {
+      toast.error('Failed to update comment.');
+    }
+  }
+
+  async onDeleteResponse(response: any) {
+    try {
+      await this.responseService.deleteResponse(response.id);
+      this.adminResponses = this.adminResponses.filter(r => r.id !== response.id);
+      this.cdr.detectChanges();
+      toast.success('Deleted successfully!');
+    } catch (err) {
+      toast.error('Failed to delete response.');
+    }
+  }
+
+  onCancelEdit() {
+    this.editingResponseId = null;
+    this.editingMessage = '';
+    this.cdr.detectChanges();
   }
   
   onCancel() {
