@@ -85,43 +85,74 @@
           <div class="response-card" *ngFor="let response of adminResponses">
             <div class="response-header">
               <span class="response-name">{{ response.name }}</span>
-              <span class="response-date">{{ response.date }}</span>
-              <button class="btn-delete" (click)="onDeleteResponse(response)">
-                <img src="/assets/images/trash.svg" class="trash-icon" alt="delete" />
-              </button>
+              <span class="response-date">
+                {{ response.date }}
+                <span *ngIf="response.is_edited" class="edited-label">(edited)</span>
+              </span>
+              <div class="response-actions">
+                <div class="dots-menu" *ngIf="editingResponseId !== response.id">
+                  <button
+                    class="btn-dots"
+                    (click)="toggleMenu(response.id); $event.stopPropagation()"
+                  >
+                    <img src="/assets/images/dots.svg" class="dot-icon" alt="options" />
+                  </button>
+                  <div class="dots-dropdown" *ngIf="openMenuId === response.id">
+                    <p (click)="onEditResponse(response); openMenuId = null">Edit</p>
+                    <p
+                      class="delete-option"
+                      (click)="onDeleteResponse(response); openMenuId = null"
+                    >
+                      Delete
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <p class="response-text">{{ response.message }}</p>
+
+            <!-- View mode -->
+            <p class="response-text" *ngIf="editingResponseId !== response.id">
+              {{ response.message }}
+            </p>
+
+            <!-- Edit mode -->
+            <div *ngIf="editingResponseId === response.id">
+              <textarea class="comment-box" [(ngModel)]="editingMessage" rows="3"></textarea>
+              <div class="btn-row">
+                <button class="btn-cancel" (click)="onCancelEdit()">Cancel</button>
+                <button class="btn-save" (click)="onSaveEdit(response)">Save</button>
+              </div>
+            </div>
+          </div>
+
+          <textarea
+            class="comment-box"
+            placeholder="Write your response here..."
+            [(ngModel)]="newComment"
+            name="newComment"
+            rows="4"
+            (keydown.enter)="onSave(); $event.preventDefault()"
+          ></textarea>
+
+          <div class="btn-row">
+            <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+            <button
+              class="btn-save"
+              (click)="onSave()"
+              [ngClass]="
+                newComment.trim() || selectedStatus !== report.status ? 'btn-save' : 'btn-inactive'
+              "
+            >
+              Save
+            </button>
           </div>
         </div>
-
-        <!-- Comment Box -->
-        <textarea
-          class="comment-box"
-          placeholder="Write your response here..."
-          [(ngModel)]="newComment"
-          name="newComment"
-          rows="4"
-          (keydown.enter)="onSave(); $event.preventDefault()"
-        ></textarea>
-
-        <div class="btn-row">
-          <button class="btn-cancel" (click)="onCancel()">Cancel</button>
-          <button
-            class="btn-save"
-            (click)="onSave()"
-            [ngClass]="
-              newComment.trim() || selectedStatus !== report.status ? 'btn-save' : 'btn-inactive'
-            "
-          >
-            Save
-          </button>
-        </div>
       </div>
-    </div>
 
-    <div class="empty-state" *ngIf="!report">
-      <p>No report found.</p>
-      <button class="btn-back" (click)="goBack()">Back to Dashboard</button>
+      <div class="empty-state" *ngIf="!report">
+        <p>No report found.</p>
+        <button class="btn-back" (click)="goBack()">Back to Dashboard</button>
+      </div>
     </div>
   </div>
 </div>

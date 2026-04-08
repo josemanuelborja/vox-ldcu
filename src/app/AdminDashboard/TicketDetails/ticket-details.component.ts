@@ -20,6 +20,9 @@ export class TicketDetailsComponent implements OnInit {
   newComment: string = '';
   adminResponses: any[] = [];
   isStatusOpen: boolean = false;
+  editingResponseId: number | null = null;
+  editingMessage: string = '';
+  openMenuId: number | null = null;
 
    statusOptions = [
     { value: 'submitted', label: 'Submitted' },
@@ -47,6 +50,12 @@ export class TicketDetailsComponent implements OnInit {
       case 'closed': return 'status-closed';
       default: return '';
     }
+  }
+
+  onEditResponse(response: any) {
+    this.editingResponseId = response.id;
+    this.editingMessage = response.message;
+    this.cdr.detectChanges();
   }
   
 
@@ -77,7 +86,8 @@ export class TicketDetailsComponent implements OnInit {
         id: r.id,
         name: r.admin_name,
         date: new Date(r.created_at).toLocaleString(),
-        message: r.message
+        message: r.message,
+        is_edited: r.is_edited
       }));
       this.cdr.detectChanges();
     } catch (err) {
@@ -103,7 +113,8 @@ export class TicketDetailsComponent implements OnInit {
           id: res.id,
           name: res.admin_name,
           date: res.created_at ? new Date(res.created_at).toLocaleString() : new Date().toLocaleString(),
-          message: res.message
+          message: res.message,
+          is_edited: false
         });
         this.newComment = '';
         this.cdr.detectChanges();
@@ -136,6 +147,31 @@ export class TicketDetailsComponent implements OnInit {
     } catch (err) {
       toast.error('Failed to delete response.');
     }
+  }
+
+  async onSaveEdit(response: any) {
+    if (!this.editingMessage.trim()) return;
+    try {
+      await this.responseService.updateResponse(response.id, this.editingMessage);
+      response.message = this.editingMessage;
+      response.is_edited = true;
+      this.editingResponseId = null;
+      this.cdr.detectChanges();
+      toast.success('Comment updated!');
+    } catch (err) {
+      toast.error('Failed to update comment.');
+    }
+  }
+
+  toggleMenu(id: number) {
+    this.openMenuId = this.openMenuId === id ? null : id;
+    this.cdr.detectChanges();
+  }
+
+  onCancelEdit() {
+    this.editingResponseId = null;
+    this.editingMessage = '';
+    this.cdr.detectChanges();
   }
 
   onCancel() {

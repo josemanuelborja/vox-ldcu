@@ -26,4 +26,10 @@ export class ResponseService {
       this.http.delete<void>(`${this.API_URL}/${responseId}`)
     );
   }
+
+  public async updateResponse(responseId: number, message: string) {
+    return lastValueFrom(
+      this.http.put<any>(`${this.API_URL}/${responseId}`, { message })
+    );
+  }
 }

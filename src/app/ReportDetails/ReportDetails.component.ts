@@ -64,7 +64,8 @@ export class ReportDetailsComponent implements OnInit {
         id: r.id,
         name: r.admin_name,
         date: new Date(r.created_at).toLocaleString(),
-        message: r.message
+        message: r.message,
+        is_edited: r.is_edited
       }));
       this.cdr.detectChanges();
     } catch (err) {
