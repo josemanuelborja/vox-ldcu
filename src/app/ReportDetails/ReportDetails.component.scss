@@ -318,6 +318,7 @@ $dark-red: #7a1414;
   &:hover { background: #f5f5f5; }
 }
 
+// sa pag edit nani sya save sa nako ni dari
 .btn-save {
   padding: 10px 24px;
   border: none;
@@ -409,4 +410,132 @@ $dark-red: #7a1414;
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  opacity: 0.6;
+  color: black;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.btn-send {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover:not(:disabled) {
+    background-color: #f0f0f0;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.send-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.edit-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-card {
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  width: 600px;
+  max-width: 90vw;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.edit-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.edit-subtitle {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0 0 24px 0;
+}
+
+.edit-field {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+}
+
+.edit-input,
+.edit-select,
+.edit-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-family: 'Segoe UI', sans-serif;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus { border-color: $red; }
+}
+
+.edit-select {
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  cursor: pointer;
+}
+
+.edit-textarea {
+  resize: none;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: $red;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+
+  &:hover {
+    background: $dark-red;
+  }
 }

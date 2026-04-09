@@ -12,13 +12,13 @@ export class TicketService {
 
   // GET own tickets by user_id
   public async getTickets(userId: number) {
-  const url = userId 
-    ? `${this.API_URL}?user_id=${userId}`  
-    : this.API_URL;                        
-  return lastValueFrom(
-    this.http.get<Ticket[]>(url)
-  );
-}
+    const url = userId 
+      ? `${this.API_URL}?user_id=${userId}`  
+      : this.API_URL;                        
+    return lastValueFrom(
+      this.http.get<Ticket[]>(url)
+    );
+  }
 
   // POST new ticket
   public async createTicket(payload: CreateTicket) {
@@ -35,8 +35,20 @@ export class TicketService {
   }
   // ticket status
   public async updateStatus(ticketId: number, status: string) {
-  return lastValueFrom(
-    this.http.patch<any>(`${this.API_URL}/${ticketId}/status`, { status })
-  );
-}
+    return lastValueFrom(
+      this.http.patch<any>(`${this.API_URL}/${ticketId}/status`, { status })
+    );
+  }
+
+  public async updateTicket(id: number, payload: {
+    title: string;
+    type_of_report: string;
+    category: string;
+    description: string;
+  }) {
+    return lastValueFrom(
+      this.http.put<any>(`${this.API_URL}/${id}`, payload)
+    );
+  }
+
 }

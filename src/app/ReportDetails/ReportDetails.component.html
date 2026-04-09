@@ -14,9 +14,15 @@
     <div class="report-card" *ngIf="report">
       <div class="report-header">
         <h2 class="report-title">{{ report.title }}</h2>
-        <span class="report-status" [ngClass]="getStatusClass(report.status)">
-          {{ getStatusLabel(report.status) }}
-        </span>
+
+        <div class="header-right">
+          <span class="report-status" [ngClass]="getStatusClass(report.status)">
+            {{ getStatusLabel(report.status) }}
+          </span>
+          <img
+            *ngIf="report.status === 'submitted'"src="/assets/images/edit.svg"alt="Edit Report"class="edit-icon"
+            (click)="openEditModal()"/>
+        </div>
       </div>
 
       <div class="report-detail">
@@ -103,7 +109,9 @@
               <textarea class="comment-box" [(ngModel)]="editingMessage" rows="3"></textarea>
               <div class="btn-row">
                 <button class="btn-cancel" (click)="onCancelEdit()">Cancel</button>
-                <button class="btn-save" (click)="onSaveEdit(response)">Save</button>
+                <button class="btn-send" (click)="onSaveEdit(response)" [disabled]="!editingMessage.trim()">
+                  <img src="/assets/images/send.svg" alt="Send" class="send-icon" />
+                </button>
               </div>
             </div>
           </div>
@@ -122,13 +130,46 @@
         <div class="btn-row">
           <button class="btn-cancel" (click)="onCancel()">Cancel</button>
           <button
-            class="btn-save"
+            class="btn-send"
             (click)="onSave()"
             [ngClass]="newComment.trim() ? 'btn-save' : 'btn-inactive'"
             [disabled]="isSubmitting"
           >
-            {{ isSubmitting ? 'Saving...' : 'Save' }}
+            <img src="/assets/images/send.svg" alt="Send" class="send-icon" />
           </button>
+        </div>
+      </div>
+
+      <div class="edit-overlay" *ngIf="isEditModalOpen" (click)="closeEditModal()">
+        <div class="edit-card" (click)="$event.stopPropagation()">
+          <h3 class="edit-title">Edit Report</h3>
+          <p class="edit-subtitle">Provide concise details to help us address your concern</p>
+
+          <div class="edit-field">
+            <label>Title *</label>
+            <input class="edit-input" [(ngModel)]="editForm.title" placeholder="Brief summary" />
+          </div>
+
+          <div class="edit-field">
+            <label>Type of Report *</label>
+            <select class="edit-select" [(ngModel)]="editForm.type_of_report">
+              <option *ngFor="let opt of typeOptions" [value]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <div class="edit-field">
+            <label>Category *</label>
+            <select class="edit-select" [(ngModel)]="editForm.category">
+              <option *ngFor="let opt of categoryOptions" [value]="opt.value">{{ opt.label }}</option>
+            </select>
+          </div>
+
+          <div class="edit-field">
+            <label>Description *</label>
+            <textarea class="edit-textarea" [(ngModel)]="editForm.description" rows="5" placeholder="Describe your report"></textarea>
+          </div>
+
+          <button class="btn-submit" (click)="onSaveEditReport()">Save Changes</button>
         </div>
       </div>
 

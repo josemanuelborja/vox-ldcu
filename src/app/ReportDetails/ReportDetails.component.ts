@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ResponseService } from '../services/response/response.service';
 import { toast } from 'ngx-sonner';
+import { TicketService } from '../services/ticket/ticket.service';
 
 @Component({
   selector: 'app-report-details',
@@ -21,9 +22,6 @@ export class ReportDetailsComponent implements OnInit {
   newComment = ''; 
   isSubmitting = false;
   currentUserName: string = '';
-  editingResponseId: number | null = null;
-  editingMessage: string = '';
-  openMenuId: number | null = null;
 
   getStatusClass(status: string): string {
     switch (status) {
@@ -43,9 +41,28 @@ export class ReportDetailsComponent implements OnInit {
     case 'closed': return 'Closed';
     default: return status;
   }
-}
+} 
 
-  constructor(private router: Router, private responseService: ResponseService, private cdr: ChangeDetectorRef) {}
+  editingResponseId: number | null = null;
+  editingMessage: string = '';
+  openMenuId: number | null = null;
+
+  isEditModalOpen: boolean = false;
+  editForm = { title: '', type_of_report: '', category: '', description: '' };
+
+  typeOptions = [
+    { value: 'complain', label: 'Complain' },
+    { value: 'suggestion', label: 'Suggestion' }
+  ];
+
+  categoryOptions = [
+    { value: 'facilities', label: 'Facilities' },
+    { value: 'faculty', label: 'Faculty' },
+    { value: 'administration', label: 'Administration' },
+    { value: 'others', label: 'Others' }
+  ];
+
+  constructor(private router: Router, private responseService: ResponseService, private ticketService: TicketService, private cdr: ChangeDetectorRef) {}
 
   async ngOnInit() {
     const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
@@ -157,6 +174,39 @@ export class ReportDetailsComponent implements OnInit {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
   
+   openEditModal() {
+    this.editForm = {
+      title: this.report.title,
+      type_of_report: this.report.reportType.toLowerCase(),
+      category: this.report.category.toLowerCase(),
+      description: this.report.description
+    };
+    this.isEditModalOpen = true;
+    this.cdr.detectChanges();
+  }
+
+  closeEditModal() {
+    this.isEditModalOpen = false;
+    this.cdr.detectChanges();
+  }
+
+  async onSaveEditReport() {
+    if (!this.editForm.title.trim() || !this.editForm.description.trim()) return;
+    try {
+      const updated = await this.ticketService.updateTicket(this.report.id, this.editForm);
+      this.report.title = updated.title;
+      this.report.description = updated.description;
+      this.report.category = this.capitalize(updated.category);
+      this.report.reportType = this.capitalize(updated.type_of_report);
+      localStorage.setItem('selectedReport', JSON.stringify(this.report));
+      this.isEditModalOpen = false;
+      this.cdr.detectChanges();
+      toast.success('Report updated!');
+    } catch (err) {
+      toast.error('Failed to update report.');
+    }
+  }
+
   goBack() {
     this.router.navigate(['/dashboard']);
   }
