@@ -418,14 +418,40 @@ $dark-red: #7a1414;
   gap: 8px;
 }
 
-.edit-icon {
-  width: 20px;
-  height: 20px;
+.edit-wrapper {
+  position: relative;
+  display: inline-block;
   cursor: pointer;
-  opacity: 0.6;
-  color: black;
 
-  &:hover {
+  .edit-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.6;
+  }
+
+  &:hover .edit-icon {
+    opacity: 1;
+  }
+
+  &::after {
+    content: "Edit Details";
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: black;
+    color: white;
+    font-size: 12px;
+    padding: 4px 6px;
+    border-radius: 4px;
+
+    opacity: 0;
+    transition: 0.2s;
+    white-space: nowrap;
+  }
+
+  &:hover::after {
     opacity: 1;
   }
 }

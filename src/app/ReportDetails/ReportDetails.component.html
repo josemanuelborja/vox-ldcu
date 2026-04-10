@@ -19,9 +19,9 @@
           <span class="report-status" [ngClass]="getStatusClass(report.status)">
             {{ getStatusLabel(report.status) }}
           </span>
-          <img
-            *ngIf="report.status === 'submitted'"src="/assets/images/edit.svg"alt="Edit Report"class="edit-icon"
-            (click)="openEditModal()"/>
+          <div class="edit-wrapper" *ngIf="report.status === 'submitted'" (click)="openEditModal()">
+            <img src="/assets/images/edit.svg" alt="Edit Report" class="edit-icon" />
+          </div>
         </div>
       </div>
 
