@@ -169,7 +169,7 @@
             <textarea class="edit-textarea" [(ngModel)]="editForm.description" rows="5" placeholder="Describe your report"></textarea>
           </div>
 
-          <button class="btn-submit" (click)="onSaveEditReport()">Save Changes</button>
+          <button class="btn-submit" (click)="onSaveEditReport()" [disabled]="!hasEditChanges" [ngClass]="!hasEditChanges ? 'btn-submit-inactive' : ''">Save Changes</button>
         </div>
       </div>
 

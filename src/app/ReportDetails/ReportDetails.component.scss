@@ -535,7 +535,12 @@ $dark-red: #7a1414;
   cursor: pointer;
   margin-top: 8px;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: $dark-red;
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
   }
 }

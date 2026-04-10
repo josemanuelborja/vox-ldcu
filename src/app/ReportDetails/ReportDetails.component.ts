@@ -190,6 +190,15 @@ export class ReportDetailsComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  get hasEditChanges(): boolean {
+    return (
+      this.editForm.title !== this.report.title ||
+      this.editForm.description !== this.report.description ||
+      this.editForm.type_of_report !== this.report.reportType.toLowerCase() ||
+      this.editForm.category !== this.report.category.toLowerCase()
+    );
+  }
+
   async onSaveEditReport() {
     if (!this.editForm.title.trim() || !this.editForm.description.trim()) return;
     try {
@@ -206,6 +215,7 @@ export class ReportDetailsComponent implements OnInit {
       toast.error('Failed to update report.');
     }
   }
+  
 
   goBack() {
     this.router.navigate(['/dashboard']);
