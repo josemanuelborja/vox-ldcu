@@ -22,6 +22,7 @@ export class ReportDetailsComponent implements OnInit {
   newComment = ''; 
   isSubmitting = false;
   currentUserName: string = '';
+  isLightboxOpen = false;
 
   getStatusClass(status: string): string {
     switch (status) {
@@ -216,6 +217,15 @@ export class ReportDetailsComponent implements OnInit {
     }
   }
   
+  openLightbox() {
+    this.isLightboxOpen = true;
+    this.cdr.detectChanges();
+  }
+
+  closeLightbox() {
+    this.isLightboxOpen = false;
+    this.cdr.detectChanges();
+  }
 
   goBack() {
     this.router.navigate(['/dashboard']);

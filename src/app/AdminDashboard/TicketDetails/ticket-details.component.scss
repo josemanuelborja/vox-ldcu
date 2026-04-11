@@ -423,3 +423,45 @@ $dark-red: #7a1414;
   overflow-wrap: break-word;
   white-space: pre-wrap;
 }
+
+.attachment-image {
+  max-width: 500px;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 1;
+  &:hover { opacity: 0.8; }
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-box {
+  width: 90%;
+  max-width: 900px;
+
+  img {
+    width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    display: flex;
+  }
+  
+  .attachment-name {
+    color: white;
+    font-size: 1rem;
+    line-height: 1;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+}
+

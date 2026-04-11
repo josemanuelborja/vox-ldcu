@@ -23,6 +23,7 @@ export class TicketDetailsComponent implements OnInit {
   editingResponseId: number | null = null;
   editingMessage: string = '';
   openMenuId: number | null = null;
+  isLightboxOpen = false;
 
    statusOptions = [
     { value: 'submitted', label: 'Submitted' },
@@ -165,6 +166,16 @@ export class TicketDetailsComponent implements OnInit {
 
   toggleMenu(id: number) {
     this.openMenuId = this.openMenuId === id ? null : id;
+    this.cdr.detectChanges();
+  }
+
+   openLightbox() {
+    this.isLightboxOpen = true;
+    this.cdr.detectChanges();
+  }
+
+  closeLightbox() {
+    this.isLightboxOpen = false;
     this.cdr.detectChanges();
   }
 

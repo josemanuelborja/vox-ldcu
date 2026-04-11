@@ -21,9 +21,9 @@ export class TicketService {
   }
 
   // POST new ticket
-  public async createTicket(payload: CreateTicket) {
+  public async createTicket(payload: FormData) { 
     return lastValueFrom(
-      this.http.post<Ticket>(this.API_URL, payload)
+      this.http.post<any>(this.API_URL, payload)
     );
   }
 

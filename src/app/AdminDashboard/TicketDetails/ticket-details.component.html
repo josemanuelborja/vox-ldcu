@@ -67,12 +67,17 @@
       </div>
 
       <!-- Attachment -->
-      <div
-        class="report-section"
-        *ngIf="report.attachment && report.attachment !== 'No attachment'"
-      >
+      <div class="report-section" *ngIf="report.attachment && report.attachment !== 'No attachment'">
         <h3 class="section-label">Attachment</h3>
-        <p class="attachment-name">📎 {{ report.attachment }}</p>
+        <img [src]="'http://localhost:3000/uploads/' + report.attachment" class="attachment-image" (click)="openLightbox()" />
+      </div>
+
+      <!-- Lightbox -->
+      <div class="lightbox" *ngIf="isLightboxOpen" (click)="closeLightbox()">
+        <div class="lightbox-box" (click)="$event.stopPropagation()">
+          <div class="attachment-name" (click)="closeLightbox()"> {{ report.attachment }} </div>
+          <img [src]="'http://localhost:3000/uploads/' + report.attachment" />
+        </div>
       </div>
 
       <hr class="divider" />

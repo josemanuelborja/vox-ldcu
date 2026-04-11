@@ -184,43 +184,6 @@ $dark-red: #7a1414;
   height: 24px;
 }
 
-.response-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.response-card {
-  background: #f5f5f5;
-  border-radius: 8px;
-  padding: 12px 16px;
-}
-
-.response-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.response-name {
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: black;
-}
-
-.response-date {
-  font-size: 0.78rem;
-  color: #888;
-}
-
-.response-text {
-  font-size: 0.85rem;
-  color: #444;
-  margin: 0;
-}
-
 .status-submitted {
   background-color: #e3f2fd;
   color: #1565c0;
@@ -569,4 +532,45 @@ $dark-red: #7a1414;
     background: #ccc;
     cursor: not-allowed;
   }
+}
+
+.attachment-image {
+  max-width: 500px;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 1;
+  &:hover { opacity: 0.8; }
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-box {
+  width: 90%;
+  max-width: 900px;
+
+  img {
+    width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    display: flex;
+  }
+  
+  .attachment-name {
+    color: white;
+    font-size: 1rem;
+    line-height: 1;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
 }

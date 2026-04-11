@@ -82,19 +82,20 @@ export class TicketComponent {
 
     const user = JSON.parse(sessionStorage.getItem('user') ?? '{}');
 
-    const payload = {
-      user_id: user.id,
-      title: this.title,
-      type_of_report: this.reportType.toLowerCase(),
-      category: this.category.toLowerCase(),
-      description: this.description,
-      attachment: this.attachment?.name ?? null
-    };
+    const formData = new FormData();
+      formData.append('user_id', user.id);
+      formData.append('title', this.title);
+      formData.append('type_of_report', this.reportType.toLowerCase());
+      formData.append('category', this.category.toLowerCase());
+      formData.append('description', this.description);
+      if (this.attachment) {
+        formData.append('attachment', this.attachment); 
+      } 
 
     this.isSubmitting = true;
 
     try {
-      await this.ticketService.createTicket(payload);
+      await this.ticketService.createTicket(formData);
       toast.success('Report submitted successfully!');
       this.router.navigate(['/dashboard']);
     } catch (err) {
