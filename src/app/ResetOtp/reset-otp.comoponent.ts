@@ -19,6 +19,7 @@ export class ResetOtpComponent implements OnInit, OnDestroy {
   countdown = 0;
   canResend = true;
   timer: any;
+  lastResendTime = 0;
 
   constructor(private router: Router, private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
@@ -69,6 +70,16 @@ export class ResetOtpComponent implements OnInit, OnDestroy {
   onResend() {
     if (!this.canResend) return;
 
+    const now = Date.now();
+
+    if (now - this.lastResendTime < 3000) {
+      this.errorMessage = 'Too many requests. Please try again later.'; // for spamming resend button ni sya
+      toast.error('Too many requests. Please try again later.');
+      return;
+    }
+
+    this.lastResendTime = now;
+
     const email = localStorage.getItem('resetEmail');
     if (!email) return;
 
@@ -77,8 +88,15 @@ export class ResetOtpComponent implements OnInit, OnDestroy {
         this.startCountdown();
         this.errorMessage = '';
       },
-      error: () => {
-        this.errorMessage = 'Failed to resend code.';
+      error: (err) => {
+         if (err.status === 429) {
+            this.errorMessage = 'Too many requests. Please try again later.';
+            toast.error('Too many requests. Please try again later.');
+            return;
+          }
+
+          this.errorMessage = 'Failed to resend code.';
+          toast.error('Failed to resend code.');
       }
     });
   }
