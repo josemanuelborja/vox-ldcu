@@ -2,6 +2,7 @@ import { Component, ElementRef, QueryList, ViewChildren, OnInit, OnDestroy, Chan
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-resetotp',
@@ -89,15 +90,21 @@ export class ResetOtpComponent implements OnInit, OnDestroy {
       .map(input => input.nativeElement.value)
       .join('');
 
-    if (code.length < 4) {
+    if (!code || code.length !== 4) {
       this.errorMessage = 'Please enter the 4-digit code.';
+      toast.error('Please enter the 4-digit code.');
       return;
     }
 
     this.http.post<any>('http://localhost:3000/api/otp/verify', { email, code }).subscribe({
       next: () => this.router.navigate(['/confirmPassword']),
       error: (err) => {
-        this.errorMessage = err.error.message || 'Invalid or expired code.'; // Show validation
+
+        if(err.status === 400) {
+          this.errorMessage = err.error.message || 'Invalid or expired code.';
+          toast.error('Invalid or expired code.'); // Show validation
+          return;
+        }
       }
     });
   }
