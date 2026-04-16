@@ -85,7 +85,7 @@ export class ReportDetailsComponent implements OnInit {
       const res = await this.responseService.getResponses(this.report.id);
       this.adminResponses = res.map(r => ({
         id: r.id,
-        name: r.admin_name,
+        name: r.name,
         date: new Date(r.created_at).toLocaleString(),
         message: r.message,
         is_edited: r.is_edited
@@ -104,12 +104,12 @@ export class ReportDetailsComponent implements OnInit {
     try {
       const res = await this.responseService.createResponse({
         ticket_id: this.report.id,
-        admin_name: user.full_name,
+        name: user.full_name,
         message: this.newComment
       });
       this.adminResponses.push({
         id: res.id,
-        name: res.admin_name,
+        name: res.name,
         date: res.created_at ? new Date(res.created_at).toLocaleString() : new Date().toLocaleString(),
         message: res.message,
         is_edited: false
@@ -164,11 +164,13 @@ export class ReportDetailsComponent implements OnInit {
     this.editingResponseId = null;
     this.editingMessage = '';
     this.cdr.detectChanges();
+    toast.info('Cancel Successful');
   }
   
   onCancel() {
     this.newComment = '';
     this.cdr.detectChanges();
+    toast.info('Cancel Successful');
   }
   capitalize(str: string): string {
     if (!str) return '';

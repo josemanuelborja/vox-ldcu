@@ -34,9 +34,18 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   reports: any[] = [];
 
+  
   get filteredReports() {
+    const statusMap: any = {
+      'All Status': null,
+      'Submitted': 'submitted',
+      'In Progress': 'in_progress',
+      'Resolved': 'resolved',
+      'Closed': 'closed'
+    };
+
   return this.reports.filter(report => {
-    const statusMatch = this.filterStatus === 'All Status' || report.status === this.filterStatus.toLowerCase();
+    const statusMatch = this.filterStatus === 'All Status' || report.status === statusMap[this.filterStatus];
     const typeMatch = this.filterType === 'All Reports' || report.reportType === this.filterType.toLowerCase();
     return statusMatch && typeMatch;
   });
@@ -74,7 +83,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
       this.reports = res.map((r: any) => ({
         id: r.id,
         title: r.title,
-        reportType: this.capitalize(r.type_of_report),
+        reportType: r.type_of_report.toLowerCase(),
         category: this.capitalize(r.category),
         description: r.description,
         attachment: r.attachment ?? 'No attachment',

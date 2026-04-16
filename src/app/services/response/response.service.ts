@@ -15,7 +15,7 @@ export class ResponseService {
     );
   }
 
-  public async createResponse(payload: { ticket_id: number, admin_name: string, message: string }) {
+  public async createResponse(payload: { ticket_id: number, name: string, message: string }) {
     return lastValueFrom(
       this.http.post<any>(this.API_URL, payload)
     );

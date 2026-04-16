@@ -24,6 +24,7 @@ export class TicketDetailsComponent implements OnInit {
   editingMessage: string = '';
   openMenuId: number | null = null;
   isLightboxOpen = false;
+  isSubmitting = false;
 
    statusOptions = [
     { value: 'submitted', label: 'Submitted' },
@@ -32,11 +33,28 @@ export class TicketDetailsComponent implements OnInit {
     { value: 'closed', label: 'Closed' }
   ];
 
-  selectStatus(status: string) {
+  async selectStatus(status: string) {
     this.selectedStatus = status;
     this.isStatusOpen = false;
     this.cdr.detectChanges();
+
+    if (this.report && this.selectedStatus !== this.report.status) {
+    try {
+      await this.ticketService.updateStatus(this.report.id, this.selectedStatus);
+      this.report.status = this.selectedStatus;
+
+      localStorage.setItem('selectedReport', JSON.stringify(this.report));
+
+      this.cdr.detectChanges();
+      toast.success('Status updated!');
+    } catch (err) {
+      toast.error('Failed to update status.');
+
+      // optional: rollback
+      this.selectedStatus = this.report.status;
+    }
   }
+}
 
    getStatusLabel(status: string): string {
     const option = this.statusOptions.find(o => o.value === status);
@@ -85,7 +103,7 @@ export class TicketDetailsComponent implements OnInit {
       const res = await this.responseService.getResponses(this.report.id);
       this.adminResponses = res.map(r => ({
         id: r.id,
-        name: r.admin_name,
+        name: r.name,
         date: new Date(r.created_at).toLocaleString(),
         message: r.message,
         is_edited: r.is_edited
@@ -97,22 +115,19 @@ export class TicketDetailsComponent implements OnInit {
   }
 
   async onSave() {
-    const statusChanged = this.selectedStatus !== this.report.status;
     const hasComment = this.newComment.trim();
-
-    if (!hasComment && !statusChanged) return;
 
     // Save comment to localStorage
     if (hasComment) {
       try {
         const res = await this.responseService.createResponse({
           ticket_id: this.report.id,
-          admin_name: 'Admin',
+          name: 'Admin',
           message: this.newComment
         });
         this.adminResponses.push({
           id: res.id,
-          name: res.admin_name,
+          name: res.name,
           date: res.created_at ? new Date(res.created_at).toLocaleString() : new Date().toLocaleString(),
           message: res.message,
           is_edited: false
@@ -132,7 +147,7 @@ export class TicketDetailsComponent implements OnInit {
         this.report.status = this.selectedStatus;
         localStorage.setItem('selectedReport', JSON.stringify(this.report));
         this.cdr.detectChanges();
-        toast.success('Saved successfully!')
+        toast.success('Comment submitted!')
       } catch (err) {
         toast.error('Failed to update status.');
       }
@@ -183,6 +198,7 @@ export class TicketDetailsComponent implements OnInit {
     this.editingResponseId = null;
     this.editingMessage = '';
     this.cdr.detectChanges();
+    toast.info('Cancel Successful');
   }
 
   onCancel() {
@@ -190,7 +206,7 @@ export class TicketDetailsComponent implements OnInit {
       this.newComment = '';
       this.selectedStatus = this.report.status;
       this.cdr.detectChanges();
-      toast.info('Changes cancelled.');
+      toast.info('Cancel Successful');
     }
   }
 

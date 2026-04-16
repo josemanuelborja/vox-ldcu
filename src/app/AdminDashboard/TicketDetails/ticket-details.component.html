@@ -125,7 +125,9 @@
               <textarea class="comment-box" [(ngModel)]="editingMessage" rows="3"></textarea>
               <div class="btn-row">
                 <button class="btn-cancel" (click)="onCancelEdit()">Cancel</button>
-                <button class="btn-save" (click)="onSaveEdit(response)">Save</button>
+                <button class="btn-send" (click)="onSaveEdit(response)" [disabled]="!editingMessage.trim()">
+                  <img src="/assets/images/send.svg" alt="Send" class="send-icon" />
+                </button>
               </div>
             </div>
           </div>
@@ -139,17 +141,15 @@
             (keydown.enter)="onSave(); $event.preventDefault()"
           ></textarea>
 
-          <div class="btn-row">
+          <div class="btn-row" *ngIf="newComment.trim()">
             <button class="btn-cancel" (click)="onCancel()">Cancel</button>
-            <button
-              class="btn-save"
-              (click)="onSave()"
-              [ngClass]="
-                newComment.trim() || selectedStatus !== report.status ? 'btn-save' : 'btn-inactive'
-              "
-            >
-              Save
-            </button>
+             <button
+            class="btn-send"
+            (click)="onSave()"
+            [ngClass]="newComment.trim() ? 'btn-save' : 'btn-inactive'"
+            [disabled]="isSubmitting">
+            <img src="/assets/images/send.svg" alt="Send" class="send-icon" />
+          </button>
           </div>
         </div>
       </div>

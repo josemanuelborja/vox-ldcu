@@ -7,15 +7,20 @@
 
     <label for="fullName">Full Name</label>
     <input id="fullName" type="text" placeholder="Students full name" [(ngModel)]="fullName" />
+    <p class="error-message" *ngIf="fullNameError">{{ fullNameError }}</p>
+
 
     <label for="studentId">Student ID</label>
-    <input id="studentId" type="text" placeholder="00000000000" [(ngModel)]="studentId" />
+    <input id="studentId" type="text" placeholder="e.g., 2000XXXXXXX" [(ngModel)]="studentId" />
+    <p class="error-message" *ngIf="studentIdError">{{ studentIdError }}</p>
 
     <label for="email">Email</label>
     <input id="email" type="email" placeholder="student@liceo.edu.ph" [(ngModel)]="email" />
+    <p class="error-message" *ngIf="emailError">{{ emailError }}</p>
 
     <label for="password">Password</label>
     <input id="password" type="password" placeholder="••••••••••" [(ngModel)]="password" />
+    <p class="error-message" *ngIf="passwordError">{{ passwordError }}</p>
 
     <label for="confirmPassword">Confirm Password</label>
     <input
@@ -23,7 +28,9 @@
       type="password"
       placeholder="••••••••••"
       [(ngModel)]="confirmPassword"
+      (keyup.enter)="onRegister()"
     />
+    <p class="error-message" *ngIf="confirmPasswordError">{{ confirmPasswordError }}</p>
 
     <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
 

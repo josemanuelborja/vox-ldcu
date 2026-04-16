@@ -132,14 +132,13 @@
         >
         </textarea>
 
-        <div class="btn-row">
+        <div class="btn-row" *ngIf="newComment.trim()">
           <button class="btn-cancel" (click)="onCancel()">Cancel</button>
           <button
             class="btn-send"
             (click)="onSave()"
             [ngClass]="newComment.trim() ? 'btn-save' : 'btn-inactive'"
-            [disabled]="isSubmitting"
-          >
+            [disabled]="isSubmitting">
             <img src="/assets/images/send.svg" alt="Send" class="send-icon" />
           </button>
         </div>
