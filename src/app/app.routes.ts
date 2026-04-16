@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, adminGuard } from './guards/auth.guard';
+import { authGuard, adminGuard, guestGuard } from './guards/auth.guard';
 import { LoginComponent } from './Login/login.component';
 import { RegisterComponent } from './Register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -14,15 +14,20 @@ import { ConfirmPasswordComponent } from './ConfirmPassword/confirm-password.com
 
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent },  // ← Default Login Page nako 
-  { path: 'login', component: LoginComponent },  // ← Login 
-  { path: 'register', component: RegisterComponent }, // ← Register
+  { path: '', component: LoginComponent, canActivate: [guestGuard] }, // ← Default Login Page nako 
+
+  { path: 'login', component: LoginComponent, canActivate: [guestGuard] }, // ← Login 
+  { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },  // ← Register
+  { path: 'forgotPassword', component: ForgotPasswordComponent, canActivate: [guestGuard] },
+  { path: 'resetOtp', component: ResetOtpComponent, canActivate: [guestGuard] }, // ← (Reset OTP)
+  { path: 'confirmPassword', component: ConfirmPasswordComponent, canActivate: [guestGuard] }, // ← (Confirm Password)
+
+  // USER
   { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] }, // ← Dashboard
-  { path: 'ticket', component: TicketComponent,  canActivate: [authGuard] }, // ←  (Ticket)
-  { path: 'forgotPassword', component: ForgotPasswordComponent }, // ←  (Forgot Password)
+  { path: 'ticket', component: TicketComponent, canActivate: [authGuard] }, // ←  (Ticket)
   { path: 'reportDetails', component: ReportDetailsComponent, canActivate: [authGuard] }, // ←  (Report Details)
-  { path: 'adminDashboard', component: AdminComponent, canActivate: [adminGuard] }, // ←  (Admin Dashboard)
-  { path: 'ticketDetails', component: TicketDetailsComponent, canActivate: [adminGuard] }, // ← (Ticket Details)
-  { path: 'resetOtp', component: ResetOtpComponent }, // ← (Reset OTP)
-  { path: 'confirmPassword', component: ConfirmPasswordComponent } // ← (Confirm Password)
+
+  // ADMIN
+  { path: 'adminDashboard', component: AdminComponent, canActivate: [adminGuard] },  // ←  (Admin Dashboard)
+  { path: 'ticketDetails', component: TicketDetailsComponent, canActivate: [adminGuard] } // ← (Ticket Details)
 ];
