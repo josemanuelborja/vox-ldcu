@@ -25,7 +25,7 @@
           </span>
 
           <div class="status-options" *ngIf="isStatusOpen">
-            <p *ngFor="let option of statusOptions" (click)="selectStatus(option.value)">
+            <p *ngFor="let option of statusOptions" (click)="selectStatus(option.value)" [class.active]="option.value === selectedStatus">
               {{ option.label }}
             </p>
           </div>
@@ -141,8 +141,8 @@
             (keydown.enter)="onSave(); $event.preventDefault()"
           ></textarea>
 
-          <div class="btn-row" *ngIf="newComment.trim()">
-            <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+          <div class="btn-row">
+            <button class="btn-cancel" (click)="onCancel()" *ngIf="newComment.trim()">Clear</button>
              <button
             class="btn-send"
             (click)="onSave()"

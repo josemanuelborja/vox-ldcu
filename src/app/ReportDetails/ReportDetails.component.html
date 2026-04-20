@@ -132,8 +132,8 @@
         >
         </textarea>
 
-        <div class="btn-row" *ngIf="newComment.trim()">
-          <button class="btn-cancel" (click)="onCancel()">Cancel</button>
+        <div class="btn-row">
+          <button class="btn-cancel" (click)="onCancel()" *ngIf="newComment.trim()">Clear</button>
           <button
             class="btn-send"
             (click)="onSave()"
